@@ -24,4 +24,10 @@ public class TestController {
         model.addAttribute("test",list);
         return "liu/test";
     }
+
+    //测试查询
+    @RequestMapping("/index")
+    public String index(Model model){
+        return "liu/index";
+    }
 }
