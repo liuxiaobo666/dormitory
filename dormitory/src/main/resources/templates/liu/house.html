@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>宿舍楼信息</title>
+    <!-- Fav  Icon Link -->
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <!-- themify icons CSS -->
+    <link rel="stylesheet" th:href="@{/css/themify-icons.css}">
+    <!-- Animations CSS -->
+    <link rel="stylesheet" th:href="@{/css/animate.css}">
+    <!-- Main CSS -->
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <link rel="stylesheet" th:href="@{/css/green.css}" id="style_theme">
+    <link rel="stylesheet" th:href="@{/css/responsive.css}">
+    <!-- morris charts -->
+    <link rel="stylesheet" th:href="@{/charts/css/morris.css}">
+    <!-- jvectormap -->
+    <link rel="stylesheet" th:href="@{/css/jquery-jvectormap.css}">
+    <link rel="stylesheet" th:href="@{/datatable/dataTables.bootstrap4.min.css}">
+
+    <script th:src="@{/js/modernizr.min.js}"></script>
+</head>
+
+<body>
+<!-- Pre Loader -->
+<div class="loading">
+    <div class="spinner">
+        <div class="double-bounce1"></div>
+        <div class="double-bounce2"></div>
+    </div>
+</div>
+
+
+<div class="wrapper">
+    <div id="content">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="widget-area-2 lochana-box-shadow">
+                        <h3 class="widget-title">全部宿舍楼</h3>
+                        <div class="table-responsive mb-3">
+                            <table id="tableId" class="table table-bordered table-striped">
+                                <thead>
+                                <tr>
+                                    <th class="no-sort">
+                                        <div class="custom-control custom-checkbox">
+                                            <input class="custom-control-input" type="checkbox" id="select-all">
+                                            <label class="custom-control-label" for="select-all"></label>
+                                        </div>
+                                    </th>
+                                    <th>楼房号</th>
+                                    <th>地址</th>
+                                    <th>楼层数</th>
+                                    <th>房间数</th>
+                                    <th>应住人数</th>
+                                    <th>实住人数</th>
+                                    <th>管理用户</th>
+                                    <th>备注</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="houses:${houses}">
+                                    <td>
+                                        <div class="custom-control custom-checkbox">
+                                            <input class="custom-control-input" type="checkbox" th:id="${houses.id}"
+                                                   name="houId" th:value="${houses.houId}">
+                                            <label class="custom-control-label" th:for="${houses.id}"></label>
+                                        </div>
+                                    </td>
+                                    <td th:text="${houses.houId}"></td>
+                                    <td th:text="${houses.houAdd}"></td>
+                                    <td th:text="${houses.houNum}"></td>
+                                    <td th:text="${houses.houRom}"></td>
+                                    <td th:text="${houses.houPeo}"></td>
+                                    <td th:text="${houses.houFact}"></td>
+                                    <td th:text="${houses.userName}"></td>
+                                    <td th:text="${houses.houDes}"></td>
+                                </tr>
+                                </tbody>
+                            </table>
+
+                            <button type="button" class="btn btn-danger mt-3 mb-0" onclick="delDoctor()"><span
+                                    class="ti-trash"></span> 删除
+                            </button>
+                            <button type="button" class="btn btn-primary mt-3 mb-0" onclick="openEditModal()"><span
+                                    class="ti-pencil-alt"></span> 编辑
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Back to Top -->
+<a id="back-to-top" href="#" class="back-to-top">
+    <span class="ti-angle-up"></span>
+</a>
+<!-- /Back to Top -->
+<!-- Jquery Library-->
+<script th:src="@{/js/jquery-3.2.1.min.js}"></script>
+<!-- Popper Library-->
+<script th:src="@{/js/popper.min.js}"></script>
+<!-- Bootstrap Library-->
+<script th:src="@{/js/bootstrap.min.js}"></script>
+<!-- Datatable  -->
+<script th:src="@{/datatable/jquery.dataTables.min.js}"></script>
+<script th:src="@{/datatable/dataTables.bootstrap4.min.js}"></script>
+<!-- Custom Script-->
+<script th:src="@{/js/custom.js}"></script>
+<script th:src="@{/js/custom-datatables.js}"></script>
+
+
+<script th:inline="javascript">
+    /*全选*/
+    $("#select-all").click(function () {
+        $("input[name='doctorNum']").each(function () {
+            if (this.checked) {
+                this.checked = false;
+            } else {
+                this.checked = true;
+            }
+        });
+    })
+
+    /*批量删除*/
+    function delDoctor() {
+        var result = "";
+        var count = 0;
+        $("input[name='doctorNum']:checked").each(function () {
+            if ($(this).is(':checked')) {
+                result += $(this).attr('value') + ",";
+                count++;
+            } else {
+            }
+        });
+        if (!confirm("确定删除这" + count + "医生信息?")) {
+            return;
+        }
+        if (result == ",,") {
+            alert("删除的信息有误")
+        } else {
+            window.location.href = "/doctor/deleteDoctor?tag=" + result;
+            alert("删除成功");
+            window.location.href = "http://localhost:8080/doctor/doctors";
+        }
+    }
+</script>
+</body>
+</html>

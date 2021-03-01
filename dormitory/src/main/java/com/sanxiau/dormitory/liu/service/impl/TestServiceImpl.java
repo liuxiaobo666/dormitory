@@ -1,6 +1,6 @@
 package com.sanxiau.dormitory.liu.service.impl;
 
-import com.sanxiau.dormitory.liu.dao.TestDao;
+import com.sanxiau.dormitory.liu.mapper.TestMapper;
 import com.sanxiau.dormitory.liu.service.TestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,10 +12,10 @@ import java.util.Map;
 public class TestServiceImpl implements TestService {
 
     @Autowired
-    TestDao dao;
+    TestMapper mapper;
 
     @Override
     public List<Map> findAll() {
-        return dao.findAll();
+        return mapper.findAll();
     }
 }
