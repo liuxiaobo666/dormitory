@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>宿舍楼信息</title>
+    <title>寝室信息</title>
     <!-- Fav  Icon Link -->
     <!-- Bootstrap core CSS -->
     <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
@@ -43,7 +43,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="widget-area-2 lochana-box-shadow">
-                        <h3 class="widget-title">全部宿舍楼 </h3>
+                        <h3 class="widget-title">全部寝室 </h3>
                         <div class="table-responsive mb-3">
                             <table id="tableId" class="table table-bordered table-striped">
                                 <thead>
@@ -55,32 +55,30 @@
                                         </div>
                                     </th>
                                     <th>楼房号</th>
-                                    <th>地址</th>
-                                    <th>楼层数</th>
-                                    <th>房间数</th>
+                                    <th>寝室号</th>
+                                    <th>寝室类型</th>
                                     <th>应住人数</th>
                                     <th>实住人数</th>
-                                    <th>管理用户</th>
+                                    <th>电话</th>
                                     <th>备注</th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr th:each="houses:${houses}">
+                                <tr th:each="dorms:${dorms}">
                                     <td>
                                         <div class="custom-control custom-checkbox">
-                                            <input class="custom-control-input" type="checkbox" th:id="${houses.id}"
-                                                   name="id" th:value="${houses.id}">
-                                            <label class="custom-control-label" th:for="${houses.id}"></label>
+                                            <input class="custom-control-input" type="checkbox" th:id="${dorms.id}"
+                                                   name="id" th:value="${dorms.id}">
+                                            <label class="custom-control-label" th:for="${dorms.id}"></label>
                                         </div>
                                     </td>
-                                    <td th:text="${houses.houId}"></td>
-                                    <td th:text="${houses.houAdd}"></td>
-                                    <td th:text="${houses.houNum}"></td>
-                                    <td th:text="${houses.houRom}"></td>
-                                    <td th:text="${houses.houPeo}"></td>
-                                    <td th:text="${houses.houFact}"></td>
-                                    <td th:text="${houses.userName}"></td>
-                                    <td th:text="${houses.houDes}"></td>
+                                    <td th:text="${dorms.houId}"></td>
+                                    <td th:text="${dorms.dorId}"></td>
+                                    <td th:text="${dorms.dorIex}"></td>
+                                    <td th:text="${dorms.dorNum}"></td>
+                                    <td th:text="${dorms.dorPrice}"></td>
+                                    <td th:text="${dorms.tel}"></td>
+                                    <td th:text="${dorms.dorDes}"></td>
                                 </tr>
                                 </tbody>
                             </table>
@@ -115,54 +113,47 @@
             <!--顶部标题-->
             <div class="modal-header">
                 <!--标题-->
-                <h5>编辑宿舍楼信息</h5>
+                <h5>修改寝室信息</h5>
                 <button type="button" class="close" data-dismiss="modal">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <!--内容-->
             <div class="modal-body">
-                <form id="formEditDoctor" action="/house/houseUpdate" method="post">
+                <form id="formEditDoctor" action="/dorm/dormUpdate" method="post">
                     <input type="text" hidden id="id" name="id">
                     <div class="form-group col-md-6">
                         <label for="houId">楼房号</label>
-                        <input type="text" class="form-control" placeholder="houId" id="houId" name="houId">
+                        <input type="text" class="form-control" placeholder="houId" id="houId" name="houId"
+                               readonly="readonly">
                     </div>
                     <div class="form-group col-md-6">
-                        <label for="houAdd">地址</label>
-                        <input type="text" class="form-control" placeholder="houAdd" id="houAdd" name="houAdd">
+                        <label for="dorId">寝室号</label>
+                        <input type="text" class="form-control" placeholder="dorId" id="dorId" name="dorId">
                     </div>
                     <div class="form-group col-md-6">
-                        <label for="houNum">楼层数</label>
-                        <input type="text" class="form-control" placeholder="houNum" id="houNum" name="houNum"
-                               onchange="queryNum1()">
+                        <label for="dorIex">寝室类型</label>
+                        <input type="text" class="form-control" placeholder="dorIex" id="dorIex" name="dorIex"
+                        >
                     </div>
                     <div class="form-group col-md-6">
-                        <label for="houRom">房间数</label>
-                        <input type="text" class="form-control" placeholder="houRom" id="houRom" name="houRom"
+                        <label for="dorNum">应住人数</label>
+                        <input type="text" class="form-control" placeholder="dorNum" id="dorNum" name="dorNum"
                                onchange="queryNum2()">
                     </div>
                     <div class="form-group col-md-6">
-                        <label for="houPeo">应住人数</label>
-                        <input type="text" class="form-control" placeholder="houPeo" id="houPeo" name="houPeo"
+                        <label for="dorPrice">实住人数</label>
+                        <input type="text" class="form-control" placeholder="dorPrice" id="dorPrice" name="dorPrice"
                                onchange="queryNum3()">
                     </div>
                     <div class="form-group col-md-6">
-                        <label for="houFact">实住人数</label>
-                        <input type="text" class="form-control" placeholder="houFact" id="houFact" name="houFact"
+                        <label for="tel">电话</label>
+                        <input type="text" class="form-control" placeholder="tel" id="tel" name="tel"
                                onchange="queryNum4()">
                     </div>
                     <div class="form-group col-md-6">
-                        <label for="userName">管理用户</label>
-                        <select class="form-control" id="userName" name="userName">
-                            <option id="select1"></option>
-                            <option th:each="user:${users}" th:value="${user.userName}"
-                                    th:text="${user.userName}"></option>
-                        </select>
-                    </div>
-                    <div class="form-group col-md-6">
-                        <label for="houDes">备注</label>
-                        <input type="text" class="form-control" placeholder="houDes" id="houDes" name="houDes">
+                        <label for="dorDes">备注</label>
+                        <input type="text" class="form-control" placeholder="dorDes" id="dorDes" name="dorDes">
                     </div>
                     <div class="form-group col-md-6 mb-3">
                         <button type="submit" class="btn btn-primary btn-lg">保存</button>
@@ -194,40 +185,32 @@
                         <input type="text" class="form-control" placeholder="houId" id="houId1" name="houId">
                     </div>
                     <div class="form-group col-md-6">
-                        <label for="houAdd">地址</label>
-                        <input type="text" class="form-control" placeholder="houAdd" id="houAdd1" name="houAdd">
+                        <label for="dorId">寝室号</label>
+                        <input type="text" class="form-control" placeholder="dorId" id="dorId1" name="dorId">
                     </div>
                     <div class="form-group col-md-6">
-                        <label for="houNum">楼层数</label>
-                        <input type="text" class="form-control" placeholder="houNum" id="houNum1" name="houNum"
+                        <label for="dorIex">寝室类型</label>
+                        <input type="text" class="form-control" placeholder="dorIex" id="dorIex1" name="dorIex"
                                onchange="queryNum11()">
                     </div>
                     <div class="form-group col-md-6">
-                        <label for="houRom">房间数</label>
-                        <input type="text" class="form-control" placeholder="houRom" id="houRom1" name="houRom"
+                        <label for="dorNum">应住人数</label>
+                        <input type="text" class="form-control" placeholder="dorNum" id="dorNum1" name="dorNum"
                                onchange="queryNum22()">
                     </div>
                     <div class="form-group col-md-6">
-                        <label for="houPeo">应住人数</label>
-                        <input type="text" class="form-control" placeholder="houPeo" id="houPeo1" name="houPeo"
+                        <label for="dorPrice">实住人数</label>
+                        <input type="text" class="form-control" placeholder="dorPrice" id="dorPrice1" name="dorPrice"
                                onchange="queryNum33()">
                     </div>
                     <div class="form-group col-md-6">
-                        <label for="houFact">实住人数</label>
-                        <input type="text" class="form-control" placeholder="houFact" id="houFact1" name="houFact"
+                        <label for="tel">电话</label>
+                        <input type="text" class="form-control" placeholder="tel" id="tel1" name="tel"
                                onchange="queryNum44()">
                     </div>
                     <div class="form-group col-md-6">
-                        <label for="userName">管理用户</label>
-                        <select class="form-control" id="userName1" name="userName">
-                            <option id="select2"></option>
-                            <option th:each="user:${users}" th:value="${user.userName}"
-                                    th:text="${user.userName}"></option>
-                        </select>
-                    </div>
-                    <div class="form-group col-md-6">
-                        <label for="houDes">备注</label>
-                        <input type="text" class="form-control" placeholder="houDes" id="houDes1" name="houDes">
+                        <label for="dorDes">备注</label>
+                        <input type="text" class="form-control" placeholder="dorDes" id="dorDes1" name="dorDes">
                     </div>
                     <div class="form-group col-md-6 mb-3">
                         <button type="submit" class="btn btn-primary btn-lg">保存</button>
@@ -303,29 +286,21 @@
         if (id == "") {
             alert("请选择要修改的数据")
         } else {
-            /* $("#id").val(id);
-             $("#editModal").modal('show');*/
 
             $.ajax({
                 cache: true,
                 type: "get",
-                url: "/house/findOneHouse",
+                url: "/dorm/findOneDorm",
                 data: {"id": id},
                 success: function (data) {
                     console.log(data);
                     $("#houId").val(data[0].houId);
-                    $("#houAdd").val(data[0].houAdd);
-                    $("#houNum").val(data[0].houNum);
-                    $("#houRom").val(data[0].houRom);
-                    $("#houPeo").val(data[0].houPeo);
-                    $("#houFact").val(data[0].houFact);
-                    $("#houDes").val(data[0].houDes);
-
-                    //给下拉列表的第一个下拉框赋值
-                    document.getElementById("select1").text = data[0].userName;
-                    $("#select1").val(data[0].userName);
-                    document.getElementById("select1").selected = 'selected';
-
+                    $("#dorId").val(data[0].dorId);
+                    $("#dorIex").val(data[0].dorIex);
+                    $("#dorNum").val(data[0].dorNum);
+                    $("#dorPrice").val(data[0].dorPrice);
+                    $("#tel").val(data[0].tel);
+                    $("#dorDes").val(data[0].dorDes);
 
                 },
                 error: function () {
@@ -338,52 +313,42 @@
         }
     }
 
-    /*判断是否为正整数 */
-    function queryNum1() {
-        var houNum = $("#houNum").val();
-        var r = /^[0-9]*[1-9][0-9]*$/　　//正整数
-        if (r.test(houNum)) {
-            return true;
-        } else {
-            alert("请输入正整数")
-        }
-    }
 
-    /*判断是否为数字 */
+    /*判断是否为正整数 */
     function queryNum2() {
 
-        var houRom = $("#houRom").val();
+        var dorNum = $("#dorNum").val();
 
         var r = /^[0-9]*[1-9][0-9]*$/　　//正整数
-        if (r.test(houRom)) {
+        if (r.test(dorNum)) {
             return true;
         } else {
             alert("请输入正整数")
         }
     }
 
-    /*判断是否为数字 */
+    /*判断是否为正整数 */
     function queryNum3() {
 
-        var houPeo = $("#houPeo").val();
+        var dorPrice = $("#dorPrice").val();
 
         var r = /^[0-9]*[1-9][0-9]*$/　　//正整数
-        if (r.test(houPeo)) {
+        if (r.test(dorPrice)) {
             return true;
         } else {
             alert("请输入正整数")
         }
     }
 
-    /*判断是否为数字 */
+    /*判断是否电话号码 */
     function queryNum4() {
-        var houFact = $("#houFact").val();
-        var r = /^[0-9]*[1-9][0-9]*$/　　//正整数
-        if (r.test(houFact)) {
-            return true;
-        } else {
-            alert("请输入正整数")
+        var tel = document.getElementById('tel').value;
+        var reg = /^((0\d{2,3}-\d{7,8})|(1[34578]\d{9}))$/; //校验手机号和固定电话
+        var gu = /^(\(\d{3,4}\)|\d{3,4}-|\s)?\d{7,14}$/;
+        if (!reg.test(tel) || !gu.test(tel)) {
+            return alert("请输入正确的手机号");
         }
+
     }
 
     /*判断是否为正整数 */
