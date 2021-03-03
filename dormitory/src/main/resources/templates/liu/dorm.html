@@ -178,11 +178,15 @@
             </div>
             <!--内容-->
             <div class="modal-body">
-                <form id="formEditDoctor1" action="/house/houseAdd" method="post">
+                <form id="formEditDoctor1" action="/dorm/dormAdd" method="post" onsubmit=" return ss()">
                     <input type="text" hidden id="id1" name="id">
                     <div class="form-group col-md-6">
                         <label for="houId">楼房号</label>
-                        <input type="text" class="form-control" placeholder="houId" id="houId1" name="houId">
+                        <select class="form-control" id="houId1" name="houId">
+                            <option value="11" id="select1"></option>
+                            <option th:each="house:${house}" th:value="${house.houId}"
+                                    th:text="${house.houId}"></option>
+                        </select>
                     </div>
                     <div class="form-group col-md-6">
                         <label for="dorId">寝室号</label>
@@ -191,7 +195,7 @@
                     <div class="form-group col-md-6">
                         <label for="dorIex">寝室类型</label>
                         <input type="text" class="form-control" placeholder="dorIex" id="dorIex1" name="dorIex"
-                               onchange="queryNum11()">
+                        >
                     </div>
                     <div class="form-group col-md-6">
                         <label for="dorNum">应住人数</label>
@@ -259,22 +263,32 @@
             } else {
             }
         });
-        if (!confirm("确定删除这" + count + "条宿舍信息?")) {
+        if (!confirm("确定删除这" + count + "条寝室信息?")) {
             return;
         }
         if (result == "") {
             alert("请选择您要删除的数据")
         } else {
-            window.location.href = "/house/deleteHouse?tag=" + result;
+            window.location.href = "/dorm/deleteDorm?tag=" + result;
             alert("删除成功");
-            /*返回上一个页面并刷新*/
-            window.location.href = "/house/houses";
         }
     }
 
     /*打开增加模态框*/
     function openAddModal() {
         $("#addModal").modal('show');
+        //默认选择第一个下拉框
+        document.getElementById("select1").selected = 'selected';
+    }
+
+    //增加判断有没有选择宿舍楼
+    function ss(){
+        var slt=document.getElementById("houId1");
+        if(slt.value=="11"){
+            alert("请选择宿舍楼");
+            return false;
+        }
+        return true;
     }
 
     /*打开修改模态框*/
@@ -352,51 +366,40 @@
     }
 
     /*判断是否为正整数 */
-    function queryNum11() {
-        var houNum = $("#houNum1").val();
-        var r = /^[0-9]*[1-9][0-9]*$/　　//正整数
-        if (r.test(houNum)) {
-            return true;
-        } else {
-            alert("请输入正整数")
-        }
-    }
-
-    /*判断是否为数字 */
     function queryNum22() {
 
-        var houRom = $("#houRom1").val();
+        var dorNum = $("#dorNum1").val();
 
         var r = /^[0-9]*[1-9][0-9]*$/　　//正整数
-        if (r.test(houRom)) {
+        if (r.test(dorNum)) {
             return true;
         } else {
             alert("请输入正整数")
         }
     }
 
-    /*判断是否为数字 */
+    /*判断是否为正整数 */
     function queryNum33() {
 
-        var houPeo = $("#houPeo1").val();
+        var dorPrice = $("#dorPrice1").val();
 
         var r = /^[0-9]*[1-9][0-9]*$/　　//正整数
-        if (r.test(houPeo)) {
+        if (r.test(dorPrice)) {
             return true;
         } else {
             alert("请输入正整数")
         }
     }
 
-    /*判断是否为数字 */
+    /*判断是否电话号码 */
     function queryNum44() {
-        var houFact = $("#houFact1").val();
-        var r = /^[0-9]*[1-9][0-9]*$/　　//正整数
-        if (r.test(houFact)) {
-            return true;
-        } else {
-            alert("请输入正整数")
+        var tel = document.getElementById('tel1').value;
+        var reg = /^((0\d{2,3}-\d{7,8})|(1[34578]\d{9}))$/; //校验手机号和固定电话
+        var gu = /^(\(\d{3,4}\)|\d{3,4}-|\s)?\d{7,14}$/;
+        if (!reg.test(tel) || !gu.test(tel)) {
+            return alert("请输入正确的手机号");
         }
+
     }
 </script>
 

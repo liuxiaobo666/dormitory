@@ -25,6 +25,12 @@ public interface HouseDao extends JpaRepository<House, Object> {
     @Query(nativeQuery = true, value = "select * from house where id=:id")
     List<House> findById(@Param("id") Integer id);
 
+    //更据宿舍楼编号去查找
+    @Transactional
+    @Modifying
+    @Query(nativeQuery = true, value = "select * from house where hou_id=:houId")
+    List<House> findByHouId(@Param("houId") String houId);
+
     //根据ID去修改宿舍楼信息
     @Transactional()
     @Modifying

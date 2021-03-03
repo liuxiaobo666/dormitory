@@ -40,9 +40,12 @@ public class DormController {
     @RequestMapping("/dorms")
     public String allDorm(Model model) {
         List<Dorm> dorms = new ArrayList<>();
+        List<House> house = new ArrayList<>();
         try {
             dorms = dormDao.findAll();
             model.addAttribute("dorms", dorms);
+            house = houseDao.findAll();
+            model.addAttribute("house",house);
         } catch (Exception e) {
             //错误处理
             return "liu/error";
@@ -92,32 +95,26 @@ public class DormController {
 
     }
 
-    //增加宿舍楼
-    @PostMapping("/houseAdd")
-    public String houseAdd(House house) {
+    //增加寝室
+    @PostMapping("/dormAdd")
+    public String dormAdd(Dorm dorm) {
         try {
-            //管理用户不为空修改用户状态
-            if ("" != house.getUserName() && null != house.getUserName()) {
-                userDao.updateUserByUserName(house.getUserName(), "2");
-            }
-            houseDao.save(house);
+            //增加
+            dormDao.save(dorm);
         } catch (Exception e) {
             return "liu/error";
         }
         return "liu/success";
     }
 
-    //删除宿舍楼信息
-    @RequestMapping("/deleteHouse")
-    public String deleteHouse(String tag) {
+    //删除寝室信息
+    @RequestMapping("/deleteDorm")
+    public String deleteDorm(String tag) {
         String[] strs = tag.split(",");
         for (int i = 0; i < strs.length; i++) {
             try {
-                //把楼房已经有的宿管状态改变
-                List<House> list = houseDao.findById(Integer.valueOf(strs[i]));
-                userDao.updateUserByUserName(list.get(0).getUserName(), "1");
                 //删除宿舍楼信息
-                houseDao.deleteHouseById(Collections.singletonList(Integer.valueOf(strs[i])));
+                dormDao.deleteDormById(Collections.singletonList(Integer.valueOf(strs[i])));
             } catch (Exception e) {
                 return "liu/error";
             }

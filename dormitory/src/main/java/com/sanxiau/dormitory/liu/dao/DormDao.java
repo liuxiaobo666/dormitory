@@ -37,10 +37,10 @@ public interface DormDao extends JpaRepository<Dorm, Object> {
     @Query(nativeQuery = true, value = "update dorm set dor_id=:dorId,dor_sex=:dorIex,dor_num=:dorNum,dor_price=:dorPrice,tel=:tel,dor_des=:dorDes where id=:id")
     int dormUpdate(@Param("id") Integer id, @Param("dorId") String dorId, @Param("dorIex") String dorIex, @Param("dorNum") Integer dorNum, @Param("dorPrice") Integer dorPrice, @Param("tel") String tel, @Param("dorDes") String dorDes);
 
-    //删除楼房信息
+    //删除寝室信息
     @Transactional
     @Modifying
-    @Query(nativeQuery = true, value = "delete  from house  where  id in (:delId) ")
-    int deleteHouseById(@Param("delId") List<Integer> delId);
+    @Query(nativeQuery = true, value = "delete  from dorm  where  id in (:delId) ")
+    int deleteDormById(@Param("delId") List<Integer> delId);
 
 }

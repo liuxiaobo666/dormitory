@@ -106,11 +106,19 @@ public class HouseController {
             if ("" != house.getUserName() && null != house.getUserName()) {
                 userDao.updateUserByUserName(house.getUserName(), "2");
             }
-            houseDao.save(house);
+            List<House> list = houseDao.findByHouId(house.getHouId());
+            //判断宿舍楼有没有重名
+            if (null == list || list.isEmpty()){
+                houseDao.save(house);
+                return "liu/success";
+            }else {
+                return "liu/error";
+            }
+
         } catch (Exception e) {
             return "liu/error";
         }
-        return "liu/success";
+
     }
 
     //删除宿舍楼信息
