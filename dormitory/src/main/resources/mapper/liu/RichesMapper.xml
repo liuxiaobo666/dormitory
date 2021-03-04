@@ -5,9 +5,4 @@
 <mapper namespace="com.sanxiau.dormitory.liu.mapper.RichesMapper">
 
 
-    <!--更据寝室编号分组查询数据-->
-    <select id="findByDorId" resultType="java.util.LinkedHashMap">
-        SELECT hou_id,dor_id,COUNT(*) as dor_price FROM riches GROUP BY dor_id
-    </select>
-
 </mapper>

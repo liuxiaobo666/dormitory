@@ -54,6 +54,7 @@ public class DormController {
             house = houseDao.findAll();
             model.addAttribute("house",house);
         } catch (Exception e) {
+            e.printStackTrace();
             //错误处理
             return "liu/error";
         }
