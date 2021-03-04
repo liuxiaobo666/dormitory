@@ -9,6 +9,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashMap;
 import java.util.List;
 
 
@@ -23,7 +24,8 @@ public interface DormDao extends JpaRepository<Dorm, Object> {
     @Transactional
     @Modifying
     @Query(nativeQuery = true, value = "select * from dorm where id=:id")
-    List<Dorm> findById(@Param("id") Integer id);
+    List<Dorm> findById1(@Param("id") Integer id);
+
 
     //更据宿舍id去查找
     @Transactional
@@ -34,8 +36,8 @@ public interface DormDao extends JpaRepository<Dorm, Object> {
     //根据ID去修改寝室信息
     @Transactional()
     @Modifying
-    @Query(nativeQuery = true, value = "update dorm set dor_id=:dorId,dor_sex=:dorIex,dor_num=:dorNum,dor_price=:dorPrice,tel=:tel,dor_des=:dorDes where id=:id")
-    int dormUpdate(@Param("id") Integer id, @Param("dorId") String dorId, @Param("dorIex") String dorIex, @Param("dorNum") Integer dorNum, @Param("dorPrice") Integer dorPrice, @Param("tel") String tel, @Param("dorDes") String dorDes);
+    @Query(nativeQuery = true, value = "update dorm set dor_id=:dorId,dor_sex=:dorIex,dor_num=:dorNum,tel=:tel,rich=:rich,dor_des=:dorDes where id=:id")
+    int dormUpdate(@Param("id") Integer id, @Param("dorId") String dorId, @Param("dorIex") String dorIex, @Param("dorNum") Integer dorNum,  @Param("tel") String tel,@Param("rich") String rich, @Param("dorDes") String dorDes);
 
     //删除寝室信息
     @Transactional

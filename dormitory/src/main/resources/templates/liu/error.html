@@ -7,15 +7,17 @@
 </head>
 <body>
 <center>
-<h2 style="color: red">操作失败!2s后自动返回.....</h2>
+<h2 style="color: red">操作失败!1s后自动返回主页.....</h2>
 </center>
 <script>
     $(document).ready(function () {
 
         setTimeout(function () {
             /*返回上一个页面并刷新*/
+          /*  window.location.replace("/test/index");*/
+           /* window.location.href = "/test/index";*/
             self.location=document.referrer;
-        }, 2000);
+        }, 1000);
     })
 </script>
 </body>

@@ -25,6 +25,12 @@ public interface HouseDao extends JpaRepository<House, Object> {
     @Query(nativeQuery = true, value = "select * from house where id=:id")
     List<House> findById(@Param("id") Integer id);
 
+    //统计宿舍楼的数量
+    @Transactional
+    @Modifying
+    @Query(nativeQuery = true, value = "SELECT COUNT(*) FROM house")
+    int findCount();
+
     //更据宿舍楼编号去查找
     @Transactional
     @Modifying
@@ -34,8 +40,15 @@ public interface HouseDao extends JpaRepository<House, Object> {
     //根据ID去修改宿舍楼信息
     @Transactional()
     @Modifying
-    @Query(nativeQuery = true, value = "update house  set hou_id=:houId,hou_add=:houAdd,hou_num=:houNum,hou_rom=:houRom,hou_peo=:houPeo,hou_fact=:houFact,user_name=:userName,hou_des=:houDes where id =:id")
-    int houseUpdate(@Param("id") Integer id, @Param("houId") String houId, @Param("houAdd") String houAdd, @Param("houNum") Integer houNum, @Param("houRom") Integer houRom, @Param("houPeo") Integer houPeo, @Param("houFact") Integer houFact, @Param("userName") String userName, @Param("houDes") String houDes);
+    @Query(nativeQuery = true, value = "update house  set hou_id=:houId,hou_add=:houAdd,hou_num=:houNum,hou_rom=:houRom,hou_peo=:houPeo,user_name=:userName,hou_des=:houDes where id =:id")
+    int houseUpdate(@Param("id") Integer id, @Param("houId") String houId, @Param("houAdd") String houAdd, @Param("houNum") Integer houNum, @Param("houRom") Integer houRom, @Param("houPeo") Integer houPeo,  @Param("userName") String userName, @Param("houDes") String houDes);
+
+
+    //对数据进行更改运算
+    @Transactional()
+    @Modifying
+    @Query(nativeQuery = true, value = "update house  set hou_rom=:houRom,hou_peo=:houPeo where hou_Id =:houId")
+    int updateHouseByHouId(@Param("houId") String houId, @Param("houRom") Integer houRom, @Param("houPeo") Integer houPeo);
 
     //删除楼房信息
     @Transactional

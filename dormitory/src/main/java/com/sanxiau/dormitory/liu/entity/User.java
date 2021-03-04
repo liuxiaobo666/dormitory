@@ -3,6 +3,9 @@ package com.sanxiau.dormitory.liu.entity;
 
 import javax.persistence.*;
 
+/*
+用户实体类
+ */
 @Entity
 @Table(name = "loginin")
 public class User {

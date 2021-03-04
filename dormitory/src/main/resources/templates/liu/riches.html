@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>寝室财产信息</title>
+    <!-- Fav  Icon Link -->
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <!-- themify icons CSS -->
+    <link rel="stylesheet" th:href="@{/css/themify-icons.css}">
+    <!-- Animations CSS -->
+    <link rel="stylesheet" th:href="@{/css/animate.css}">
+    <!-- Main CSS -->
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <link rel="stylesheet" th:href="@{/css/green.css}" id="style_theme">
+    <link rel="stylesheet" th:href="@{/css/responsive.css}">
+    <!-- morris charts -->
+    <link rel="stylesheet" th:href="@{/charts/css/morris.css}">
+    <!-- jvectormap -->
+    <link rel="stylesheet" th:href="@{/css/jquery-jvectormap.css}">
+    <link rel="stylesheet" th:href="@{/datatable/dataTables.bootstrap4.min.css}">
+    <link rel="stylesheet" th:href="@{/css/layui.css}" media="all">
+
+    <script th:src="@{/js/modernizr.min.js}"></script>
+</head>
+
+<body>
+<!-- Pre Loader -->
+<div class="loading">
+    <div class="spinner">
+        <div class="double-bounce1"></div>
+        <div class="double-bounce2"></div>
+    </div>
+</div>
+
+
+<div class="wrapper">
+    <div id="content">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="widget-area-2 lochana-box-shadow">
+                        <h3 class="widget-title">寝室财产 </h3>
+                        <div class="table-responsive mb-3">
+                            <table id="tableId" class="table table-bordered table-striped">
+                                <thead>
+                                <tr>
+                                    <th class="no-sort">
+                                        <div class="custom-control custom-checkbox">
+                                            <input class="custom-control-input" type="checkbox" id="select-all">
+                                            <label class="custom-control-label" for="select-all"></label>
+                                        </div>
+                                    </th>
+                                    <th>学号</th>
+                                    <th>姓名</th>
+                                    <th>楼房号</th>
+                                    <th>寝室号</th>
+                                    <th>床位</th>
+                                    <th>凳子号</th>
+                                    <th>桌子号</th>
+                                    <th>钥匙发放</th>
+                                    <th>备注</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="riches:${riches}">
+                                    <td>
+                                        <div class="custom-control custom-checkbox">
+                                            <input class="custom-control-input" type="checkbox" th:id="${riches.id}"
+                                                   name="id" th:value="${riches.id}">
+                                            <label class="custom-control-label" th:for="${riches.id}"></label>
+                                        </div>
+                                    </td>
+                                    <td th:text="${riches.stuId}"></td>
+                                    <td th:text="${riches.stuName}"></td>
+                                    <td th:text="${riches.houId}"></td>
+                                    <td th:text="${riches.dorId}"></td>
+                                    <td th:text="${riches.bedId}"></td>
+                                    <td th:text="${riches.stoolId}"></td>
+                                    <td th:text="${riches.deskId}"></td>
+                                    <td th:text="${riches.keySend}"></td>
+                                    <td th:text="${riches.ricDes}"></td>
+                                </tr>
+                                </tbody>
+                            </table>
+
+                            <button type="button" class="btn btn-danger mt-3 mb-0" onclick="delHouse()"><span
+                                    class="ti-trash"></span> 删除
+                            </button>
+                            <button type="button" class="btn btn-primary mt-3 mb-0" onclick="openEditModal()"><span
+                                    class="ti-pencil-alt"></span> 编辑
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Back to Top -->
+<a id="back-to-top" href="#" class="back-to-top">
+    <span class="ti-angle-up"></span>
+</a>
+
+<!--修改模态框-->
+<div class="modal fade" id="editModal" data-th-background="static" data-th-keytype="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!--顶部标题-->
+            <div class="modal-header">
+                <!--标题-->
+                <h5>修改寝室财产信息</h5>
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <!--内容-->
+            <div class="modal-body">
+                <form id="formEditDoctor" action="/riches/richesUpdate" method="post">
+                    <input type="text" hidden id="id" name="id">
+                    <div class="form-group col-md-6">
+                        <label for="dorId">寝室号</label>
+                        <input type="text" class="form-control" placeholder="dorId" id="dorId" name="dorId"
+                               readonly="readonly">
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="bedId">床位</label>
+                        <input type="text" class="form-control" placeholder="bedId" id="bedId" name="bedId"
+                        >
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="stoolId">凳子号</label>
+                        <input type="text" class="form-control" placeholder="stoolId" id="stoolId" name="stoolId">
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="deskId">桌子号</label>
+                        <input type="text" class="form-control" placeholder="deskId" id="deskId" name="deskId"
+                        >
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="keySend">钥匙发放</label>
+                        <input type="text" class="form-control" placeholder="keySend" id="keySend" name="keySend"
+                        >
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="ricDes">备注</label>
+                        <input type="text" class="form-control" placeholder="ricDes" id="ricDes" name="ricDes"
+                        >
+                    </div>
+                    <div class="form-group col-md-6 mb-3">
+                        <button type="submit" class="btn btn-primary btn-lg">保存</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- /Back to Top -->
+<!-- Jquery Library-->
+<script th:src="@{/js/jquery-3.2.1.min.js}"></script>
+<!-- Popper Library-->
+<script th:src="@{/js/popper.min.js}"></script>
+<!-- Bootstrap Library-->
+<script th:src="@{/js/bootstrap.min.js}"></script>
+<!-- Datatable  -->
+<script th:src="@{/datatable/jquery.dataTables.min.js}"></script>
+<script th:src="@{/datatable/dataTables.bootstrap4.min.js}"></script>
+<!-- Custom Script-->
+<script th:src="@{/js/custom.js}"></script>
+<script th:src="@{/js/custom-datatables.js}"></script>
+
+
+<script th:inline="javascript">
+    /*全选*/
+    $("#select-all").click(function () {
+        $("input[name='id']").each(function () {
+            if (this.checked) {
+                this.checked = false;
+            } else {
+                this.checked = true;
+            }
+        });
+    })
+
+
+    /*批量删除*/
+    function delHouse() {
+        var result = "";
+        var count = 0;
+        $("input[name='id']:checked").each(function () {
+            if ($(this).is(':checked')) {
+                result += $(this).attr('value') + ",";
+                count++;
+            } else {
+            }
+        });
+        if (!confirm("确定删除这" + count + "条信息?")) {
+            return;
+        }
+        if (result == "") {
+            alert("请选择您要删除的数据")
+        } else {
+            window.location.href = "/riches/deleteRiches?tag=" + result;
+            alert("删除成功");
+        }
+    }
+
+
+    /*打开修改模态框*/
+    function openEditModal() {
+        var id = "";
+        $("input[name='id']:checked").each(function () {
+            id = $(this).attr('value');
+        });
+        if (id == "") {
+            alert("请选择要修改的数据")
+        } else {
+
+            $.ajax({
+                cache: true,
+                type: "get",
+                url: "/riches/findOneRiches",
+                data: {"id": id},
+                success: function (data) {
+                    console.log(data);
+                    $("#dorId").val(data[0].dorId);
+                    $("#bedId").val(data[0].bedId);
+                    $("#stoolId").val(data[0].stoolId);
+                    $("#deskId").val(data[0].deskId);
+                    $("#keySend").val(data[0].keySend);
+                    $("#ricDes").val(data[0].ricDes);
+                },
+                error: function () {
+                    notifyError("获取数据失败，请重新刷新！")
+                }
+            });
+            $("#id").val(id);
+            $("#editModal").modal('show');
+
+        }
+    }
+
+
+
+</script>
+
+
+</body>
+</html>

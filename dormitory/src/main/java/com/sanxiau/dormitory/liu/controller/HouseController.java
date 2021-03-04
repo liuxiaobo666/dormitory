@@ -1,9 +1,11 @@
 package com.sanxiau.dormitory.liu.controller;
 
+import com.sanxiau.dormitory.liu.dao.DormDao;
 import com.sanxiau.dormitory.liu.dao.HouseDao;
 import com.sanxiau.dormitory.liu.dao.UserDao;
 import com.sanxiau.dormitory.liu.entity.House;
 import com.sanxiau.dormitory.liu.entity.User;
+import com.sanxiau.dormitory.liu.mapper.DormMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,9 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 /**
  * 宿舍楼控制层
@@ -30,6 +30,11 @@ public class HouseController {
     @Autowired
     UserDao userDao;
 
+    @Autowired
+    DormDao dormDao;
+
+    @Autowired
+    DormMapper dormMapper;
 
     //查看所有宿舍楼信息
     @RequestMapping("/houses")
@@ -37,6 +42,8 @@ public class HouseController {
         List<House> houses = new ArrayList<>();
         List<User> users = new ArrayList<>();
         try {
+            //宿舍楼信息统计更新
+                int a = dormMapper.updateByHouseCount();
             houses = houseDao.findAll();
             model.addAttribute("houses", houses);
             //查询所有空闲的宿管用户
@@ -76,7 +83,7 @@ public class HouseController {
                     userDao.updateUserByUserName(house.getUserName(), "2");
                 }
                 //调用更改宿舍楼业务
-                houseDao.houseUpdate(house.getId(), house.getHouId(), house.getHouAdd(), house.getHouNum(), house.getHouRom(), house.getHouPeo(), house.getHouFact(), house.getUserName(), house.getHouDes());
+                houseDao.houseUpdate(house.getId(), house.getHouId(), house.getHouAdd(), house.getHouNum(), house.getHouRom(), house.getHouPeo(), house.getUserName(), house.getHouDes());
                 return "redirect:/house/houses";
             } else {
                 List<House> house1 = houseDao.findById(house.getId());
@@ -86,7 +93,7 @@ public class HouseController {
                         userDao.updateUserByUserName(house.getUserName(), "2");
                     }
                     //调用更改宿舍楼业务
-                    houseDao.houseUpdate(house.getId(), house.getHouId(), house.getHouAdd(), house.getHouNum(), house.getHouRom(), house.getHouPeo(), house.getHouFact(), house.getUserName(), house.getHouDes());
+                    houseDao.houseUpdate(house.getId(), house.getHouId(), house.getHouAdd(), house.getHouNum(), house.getHouRom(), house.getHouPeo(), house.getUserName(), house.getHouDes());
                     return "redirect:/house/houses";
                 } else {
                     return "liu/error";
@@ -109,6 +116,10 @@ public class HouseController {
             List<House> list = houseDao.findByHouId(house.getHouId());
             //判断宿舍楼有没有重名
             if (null == list || list.isEmpty()){
+                //设置默认数0
+                house.setHouRom(0);
+                house.setHouPeo(0);
+                house.setHouFact(0);
                 houseDao.save(house);
                 return "liu/success";
             }else {

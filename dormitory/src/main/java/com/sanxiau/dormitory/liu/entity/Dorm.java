@@ -29,6 +29,9 @@ public class Dorm {
     //电话
     @Column(name = "tel")
     public String tel;
+    //电话
+    @Column(name = "rich")
+    public String rich;
     //备注
     @Column(name = "dor_des")
     public String dorDes;
@@ -89,6 +92,14 @@ public class Dorm {
         this.tel = tel;
     }
 
+    public String getRich() {
+        return rich;
+    }
+
+    public void setRich(String rich) {
+        this.rich = rich;
+    }
+
     public String getDorDes() {
         return dorDes;
     }
@@ -107,6 +118,7 @@ public class Dorm {
                 ", dorNum=" + dorNum +
                 ", dorPrice=" + dorPrice +
                 ", tel='" + tel + '\'' +
+                ", rich='" + rich + '\'' +
                 ", dorDes='" + dorDes + '\'' +
                 '}';
     }

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sanxiau.dormitory.liu.mapper.DormMapper">
+
+    <!--    根据宿舍楼重新统计数据-->
+    <update id="updateByHouseCount">
+update house h INNER JOIN
+(SELECT hou_id,COUNT(*) as hou_rom,SUM(dor_num) as hou_peo,SUM(dor_price) as hou_fact FROM dorm GROUP BY hou_id) d
+on h.hou_id=d.hou_id set h.hou_rom=d.hou_rom,h.hou_peo=d.hou_peo,h.hou_fact=d.hou_fact
+</update>
+
+
+    <!--    根据寝室重新统计实住人数-->
+    <update id="updateByDormCount">
+update dorm d INNER JOIN
+(SELECT hou_id,dor_id,COUNT(*) as dor_price FROM riches GROUP BY dor_id) r
+on d.dor_id=r.dor_id set d.dor_price=r.dor_price
+</update>
+
+
+</mapper>

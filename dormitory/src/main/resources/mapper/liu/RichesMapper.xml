@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sanxiau.dormitory.liu.mapper.RichesMapper">
+
+
+    <!--更据寝室编号分组查询数据-->
+    <select id="findByDorId" resultType="java.util.LinkedHashMap">
+        SELECT hou_id,dor_id,COUNT(*) as dor_price FROM riches GROUP BY dor_id
+    </select>
+
+</mapper>

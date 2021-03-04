@@ -140,17 +140,12 @@
                     <div class="form-group col-md-6">
                         <label for="houRom">房间数</label>
                         <input type="text" class="form-control" placeholder="houRom" id="houRom" name="houRom"
-                               onchange="queryNum2()">
+                               readonly="readonly">
                     </div>
                     <div class="form-group col-md-6">
                         <label for="houPeo">应住人数</label>
                         <input type="text" class="form-control" placeholder="houPeo" id="houPeo" name="houPeo"
-                               onchange="queryNum3()">
-                    </div>
-                    <div class="form-group col-md-6">
-                        <label for="houFact">实住人数</label>
-                        <input type="text" class="form-control" placeholder="houFact" id="houFact" name="houFact"
-                               onchange="queryNum4()">
+                               readonly="readonly">
                     </div>
                     <div class="form-group col-md-6">
                         <label for="userName">管理用户</label>
@@ -201,21 +196,6 @@
                         <label for="houNum">楼层数</label>
                         <input type="text" class="form-control" placeholder="houNum" id="houNum1" name="houNum"
                                onchange="queryNum11()">
-                    </div>
-                    <div class="form-group col-md-6">
-                        <label for="houRom">房间数</label>
-                        <input type="text" class="form-control" placeholder="houRom" id="houRom1" name="houRom"
-                               onchange="queryNum22()">
-                    </div>
-                    <div class="form-group col-md-6">
-                        <label for="houPeo">应住人数</label>
-                        <input type="text" class="form-control" placeholder="houPeo" id="houPeo1" name="houPeo"
-                               onchange="queryNum33()">
-                    </div>
-                    <div class="form-group col-md-6">
-                        <label for="houFact">实住人数</label>
-                        <input type="text" class="form-control" placeholder="houFact" id="houFact1" name="houFact"
-                               onchange="queryNum44()">
                     </div>
                     <div class="form-group col-md-6">
                         <label for="userName">管理用户</label>
@@ -318,9 +298,7 @@
                     $("#houNum").val(data[0].houNum);
                     $("#houRom").val(data[0].houRom);
                     $("#houPeo").val(data[0].houPeo);
-                    $("#houFact").val(data[0].houFact);
                     $("#houDes").val(data[0].houDes);
-
                     //给下拉列表的第一个下拉框赋值
                     document.getElementById("select1").text = data[0].userName;
                     $("#select1").val(data[0].userName);
@@ -349,42 +327,7 @@
         }
     }
 
-    /*判断是否为数字 */
-    function queryNum2() {
 
-        var houRom = $("#houRom").val();
-
-        var r = /^[0-9]*[1-9][0-9]*$/　　//正整数
-        if (r.test(houRom)) {
-            return true;
-        } else {
-            alert("请输入正整数")
-        }
-    }
-
-    /*判断是否为数字 */
-    function queryNum3() {
-
-        var houPeo = $("#houPeo").val();
-
-        var r = /^[0-9]*[1-9][0-9]*$/　　//正整数
-        if (r.test(houPeo)) {
-            return true;
-        } else {
-            alert("请输入正整数")
-        }
-    }
-
-    /*判断是否为数字 */
-    function queryNum4() {
-        var houFact = $("#houFact").val();
-        var r = /^[0-9]*[1-9][0-9]*$/　　//正整数
-        if (r.test(houFact)) {
-            return true;
-        } else {
-            alert("请输入正整数")
-        }
-    }
 
     /*判断是否为正整数 */
     function queryNum11() {
@@ -397,42 +340,7 @@
         }
     }
 
-    /*判断是否为数字 */
-    function queryNum22() {
 
-        var houRom = $("#houRom1").val();
-
-        var r = /^[0-9]*[1-9][0-9]*$/　　//正整数
-        if (r.test(houRom)) {
-            return true;
-        } else {
-            alert("请输入正整数")
-        }
-    }
-
-    /*判断是否为数字 */
-    function queryNum33() {
-
-        var houPeo = $("#houPeo1").val();
-
-        var r = /^[0-9]*[1-9][0-9]*$/　　//正整数
-        if (r.test(houPeo)) {
-            return true;
-        } else {
-            alert("请输入正整数")
-        }
-    }
-
-    /*判断是否为数字 */
-    function queryNum44() {
-        var houFact = $("#houFact1").val();
-        var r = /^[0-9]*[1-9][0-9]*$/　　//正整数
-        if (r.test(houFact)) {
-            return true;
-        } else {
-            alert("请输入正整数")
-        }
-    }
 </script>
 
 
