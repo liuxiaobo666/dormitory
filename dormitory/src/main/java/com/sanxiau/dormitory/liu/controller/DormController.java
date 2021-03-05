@@ -73,6 +73,15 @@ public class DormController {
         return dorm;
     }
 
+    //根据寝室楼编号去查询寝室
+    @ResponseBody
+    @GetMapping("/findDormByHouId")
+    public List<Dorm> findDormByHouId(String houId, HttpServletRequest request) {
+        List<Dorm> dorm = new ArrayList<>();
+        dorm = dormDao.findDormByHouId(houId);
+        return dorm;
+    }
+
     //修改寝室信息
     @PostMapping("/dormUpdate")
     public String dormUpdate(Dorm dorm, HttpServletRequest request) {

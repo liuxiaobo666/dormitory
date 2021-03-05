@@ -4,6 +4,7 @@ package com.sanxiau.dormitory.liu.controller;
 
 import org.springframework.stereotype.Controller;
 
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 
@@ -23,4 +24,11 @@ public class LiuController {
     public String success() {
         return "liu/success";
     }
+
+    //主页面
+    @RequestMapping("/index")
+    public String index(Model model){
+        return "liu/index";
+    }
+
 }

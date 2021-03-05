@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>添加学生</title>
+    <!-- Fav  Icon Link -->
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <!-- themify icons CSS -->
+    <link rel="stylesheet" th:href="@{/css/themify-icons.css}">
+    <!-- Animations CSS -->
+    <link rel="stylesheet" th:href="@{/css/animate.css}">
+    <!-- Main CSS -->
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <link rel="stylesheet" th:href="@{/css/green.css}" id="style_theme">
+    <link rel="stylesheet" th:href="@{/css/responsive.css}">
+    <!-- morris charts -->
+    <link rel="stylesheet" th:href="@{/charts/css/morris.css}">
+    <!-- jvectormap -->
+    <link rel="stylesheet" th:href="@{/css/jquery-jvectormap.css}">
+    <link rel="stylesheet" th:href="@{/datatable/dataTables.bootstrap4.min.css}">
+    <link rel="stylesheet" th:href="@{/css/layui.css}" media="all">
+    <script th:src="@{/js/modernizr.min.js}"></script>
+</head>
+<body>
+<!-- Pre Loader -->
+<div class="loading">
+    <div class="spinner">
+        <div class="double-bounce1"></div>
+        <div class="double-bounce2"></div>
+    </div>
+</div>
+
+<!--增加框-->
+<div class="container">
+
+    <div class="row">
+        <!-- Widget Item -->
+        <div class="col-md-12">
+            <div class="widget-area-2 lochana-box-shadow">
+                <h3 class="widget-title">添加学生</h3>
+                <form action="/student/addStudent" method="post">
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="stuName">姓名</label>
+                            <input type="text" class="form-control" placeholder="stuName" id="stuName"
+                                   name="stuName">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="stuId">学号</label>
+                            <input type="text" class="form-control" placeholder="stuId" id="stuId"
+                                   name="stuId">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="stuSex">性别</label>
+                            <select class="form-control" id="stuSex" name="stuSex">
+                                <option>男</option>
+                                <option>女</option>
+                                <option>其它</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="idCard">身份证号码</label>
+                            <input type="text" placeholder="idCard" class="form-control"
+                                   id="idCard" name="idCard" onchange="queryNum3()">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="houId">宿舍楼</label>
+                            <select class="form-control" id="houId" name="houId">
+                                <option value="" id="select1">选择宿舍楼</option>
+                                <option th:each="r:${houses}" th:value="${r.houId}"
+                                        th:text="${r.houId}"></option>
+                            </select>
+
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="dorId">寝室</label>
+                            <select class="form-control" id="dorId" name="dorId">
+                                <option value="">选择寝室</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="stuEnr">入学日期</label>
+                            <input type="date" placeholder="stuEnr" class="form-control"
+                                   id="stuEnr" name="stuEnr">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="stuBirth">出生日期</label>
+                            <input type="date" placeholder="stuBirth" class="form-control"
+                                   id="stuBirth" name="stuBirth">
+                        </div>
+
+                        <div class="form-group col-md-6">
+                            <label for="stuStudy">专业</label>
+                            <input type="text" placeholder="stuStudy" class="form-control"
+                                   id="stuStudy" name="stuStudy">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="stuClass">班级</label>
+                            <input type="text" placeholder="stuClass" class="form-control"
+                                   id="stuClass" name="stuClass">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="stuCname">辅导员</label>
+                            <input type="text" placeholder="stuCname" class="form-control" id="stuCname"
+                                   name="stuCname">
+                        </div>
+
+                        <div class="form-group col-md-6">
+                            <label for="stuPolit">政治面貌</label>
+                            <select class="form-control" id="stuPolit" name="stuPolit">
+                                <option>群众</option>
+                                <option>团员</option>
+                                <option>党员</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="stuAdd">家庭住址</label>
+                            <input type="text" placeholder="stuAdd" class="form-control"
+                                   id="stuAdd" name="stuAdd">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="email">邮箱</label>
+                            <input type="text" placeholder="email" class="form-control" id="email"
+                                   name="email" onchange="queryNum2()">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="stuTel">联系方式</label>
+                            <input type="text" placeholder="stuTel" class="form-control"
+                                   id="stuTel" name="stuTel" onchange="queryNum1()">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="stuDes">备注</label>
+                            <input type="text" placeholder="stuDes" class="form-control"
+                                   id="stuDes" name="stuDes">
+                        </div>
+                        <div class="form-group col-md-6 mb-3">
+                            <button type="submit" class="btn btn-primary btn-lg">提交</button>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- /Back to Top -->
+<!-- Jquery Library-->
+<script th:src="@{/js/jquery-3.2.1.min.js}"></script>
+<!-- Popper Library-->
+<script th:src="@{/js/popper.min.js}"></script>
+<!-- Bootstrap Library-->
+<script th:src="@{/js/bootstrap.min.js}"></script>
+<!-- Datatable  -->
+<script th:src="@{/datatable/jquery.dataTables.min.js}"></script>
+<script th:src="@{/datatable/dataTables.bootstrap4.min.js}"></script>
+<!-- Custom Script-->
+<script th:src="@{/js/custom.js}"></script>
+<script th:src="@{/js/custom-datatables.js}"></script>
+
+<script th:inline="javascript">
+/*验证提交信息，某些不能为空*/
+    $("#submit").click(function () {
+        var stuName = $("#stuName").val();
+        var stuId = $("#stuId").val();
+        var stuCname = $("#stuCname").val();
+        if (stuName.length == 0) {
+            alert("姓名不能空，请重新输入！")
+            return false;
+        } else if (stuId.length == 0) {
+            alert("学号不能空，请重新输入！")
+            return false;
+        } else if (stuCname.length == 0) {
+            alert("辅导员不能空，请重新输入！")
+            return false;
+        } else {
+            return true;
+        }
+    })
+
+    //科室联动专家
+    $("#houId").change(function () {
+        var houId = $("#houId").val();
+        if (houId == " " || houId == '选择宿舍楼') {
+            return;
+        }
+        console.log("我是" + houId);
+        $.ajax({
+            cache: true,
+            type: "get",
+            url: "/dorm/findDormByHouId",
+            data: {"houId": houId},
+            success: function (data) {
+                console.log(data);
+                var dorId = $("#dorId").empty();
+                for (var i = 0; i < data.length; i++) {
+                    dorId.append("<option value ='" + data[i].dorId + "'>" + data[i].dorId + "</option>");
+                }
+            },
+            error: function () {
+                notifyError("获取数据失败，请重新刷新！")
+            }
+        })
+    })
+
+    /*判断是否电话号码 */
+    function queryNum1() {
+        var tel = document.getElementById('stuTel').value;
+        var reg = /^((0\d{2,3}-\d{7,8})|(1[34578]\d{9}))$/; //校验手机号和固定电话
+        var gu = /^(\(\d{3,4}\)|\d{3,4}-|\s)?\d{7,14}$/;
+        if (!reg.test(tel) || !gu.test(tel)) {
+            alert("请输入正确的手机号");
+            return false;
+        }else {
+            return true;
+        }
+
+    }
+
+    /*邮箱验证*/
+    function queryNum2() {
+        var reg = new RegExp("^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+.){1,63}[a-z0-9]+$"); //正则表达式
+        var obj = document.getElementById("email"); //要验证的对象
+         if (!reg.test(obj.value)) { //正则验证不通过，格式不对
+            alert("邮箱格式不正确!");
+             return false;
+        } else {
+            return true;
+        }
+    }
+
+    /*身份证验证*/
+    function queryNum3() {
+        var idCard = document.getElementById('idCard').value;
+        var reg = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/;
+        if (reg.test(idCard)){
+            return true;
+        }else {
+            alert("身份证格式不正确")
+            return false;
+        }
+    }
+</script>
+
+
+</body>
+</html>

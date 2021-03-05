@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>学生信息</title>
+    <!-- Fav  Icon Link -->
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <!-- themify icons CSS -->
+    <link rel="stylesheet" th:href="@{/css/themify-icons.css}">
+    <!-- Animations CSS -->
+    <link rel="stylesheet" th:href="@{/css/animate.css}">
+    <!-- Main CSS -->
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <link rel="stylesheet" th:href="@{/css/green.css}" id="style_theme">
+    <link rel="stylesheet" th:href="@{/css/responsive.css}">
+    <!-- morris charts -->
+    <link rel="stylesheet" th:href="@{/charts/css/morris.css}">
+    <!-- jvectormap -->
+    <link rel="stylesheet" th:href="@{/css/jquery-jvectormap.css}">
+    <link rel="stylesheet" th:href="@{/datatable/dataTables.bootstrap4.min.css}">
+    <link rel="stylesheet" th:href="@{/css/layui.css}" media="all">
+
+    <script th:src="@{/js/modernizr.min.js}"></script>
+</head>
+
+<body>
+<!-- Pre Loader -->
+<div class="loading">
+    <div class="spinner">
+        <div class="double-bounce1"></div>
+        <div class="double-bounce2"></div>
+    </div>
+</div>
+
+
+<div class="wrapper">
+    <div id="content">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="widget-area-2 lochana-box-shadow">
+                        <h3 class="widget-title">全部学生信息 </h3>
+                        <div class="table-responsive mb-3">
+                            <table id="tableId" class="table table-bordered table-striped">
+                                <thead>
+                                <tr>
+                                    <th class="no-sort">
+                                        <div class="custom-control custom-checkbox">
+                                            <input class="custom-control-input" type="checkbox" id="select-all">
+                                            <label class="custom-control-label" for="select-all"></label>
+                                        </div>
+                                    </th>
+                                    <th>学号</th>
+                                    <th>姓名</th>
+                                    <th>性别</th>
+                                    <th>身份证号码</th>
+                                    <th>楼房号</th>
+                                    <th>寝室号</th>
+                                    <th>入学日期</th>
+                                    <th>出生日期</th>
+                                    <th>专业</th>
+                                    <th>班级</th>
+                                    <th>辅导员</th>
+                                    <th>政治面貌</th>
+                                    <th>家庭住址</th>
+                                    <th>邮箱</th>
+                                    <th>联系方式</th>
+                                    <th>在校状态</th>
+                                    <th>备注</th>
+                                    <th>照片</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="students:${students}">
+                                    <td>
+                                        <div class="custom-control custom-checkbox">
+                                            <input class="custom-control-input" type="checkbox" th:id="${students.id}"
+                                                   name="id" th:value="${students.id}">
+                                            <label class="custom-control-label" th:for="${students.id}"></label>
+                                        </div>
+                                    </td>
+                                    <td th:text="${students.stuId}"></td>
+                                    <td th:text="${students.stuName}"></td>
+                                    <td th:text="${students.stuSex}"></td>
+                                    <td th:text="${students.idCard}"></td>
+                                    <td th:text="${students.houId}"></td>
+                                    <td th:text="${students.dorId}"></td>
+                                    <td th:text="${students.stuEnr}"></td>
+                                    <td th:text="${students.stuBirth}"></td>
+                                    <td th:text="${students.stuStudy}"></td>
+                                    <td th:text="${students.stuClass}"></td>
+                                    <td th:text="${students.stuCname}"></td>
+                                    <td th:text="${students.stuPolit}"></td>
+                                    <td th:text="${students.stuAdd}"></td>
+                                    <td th:text="${students.email}"></td>
+                                    <td th:text="${students.stuTel}"></td>
+                                    <td th:text="${students.stuSta}"></td>
+                                    <td th:text="${students.stuDes}"></td>
+                                    <td th:text="${students.photo}"></td>
+                                </tr>
+                                </tbody>
+                            </table>
+
+                            <button type="button" class="btn btn-danger mt-3 mb-0" onclick="delHouse()"><span
+                                    class="ti-trash"></span> 删除
+                            </button>
+                            <button type="button" class="btn btn-primary mt-3 mb-0" onclick="openEditModal()"><span
+                                    class="ti-pencil-alt"></span> 编辑
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Back to Top -->
+<a id="back-to-top" href="#" class="back-to-top">
+    <span class="ti-angle-up"></span>
+</a>
+
+<!--修改模态框-->
+<div class="modal fade" id="editModal" data-th-background="static" data-th-keytype="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!--顶部标题-->
+            <div class="modal-header">
+                <!--标题-->
+                <h5>编辑宿舍楼信息</h5>
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <!--内容-->
+            <div class="modal-body">
+                <form id="formEditDoctor" action="/house/houseUpdate" method="post">
+                    <input type="text" hidden id="id" name="id">
+                    <div class="form-group col-md-6">
+                        <label for="houId">楼房号</label>
+                        <input type="text" class="form-control" placeholder="houId" id="houId" name="houId">
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="houAdd">地址</label>
+                        <input type="text" class="form-control" placeholder="houAdd" id="houAdd" name="houAdd">
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="houNum">楼层数</label>
+                        <input type="text" class="form-control" placeholder="houNum" id="houNum" name="houNum"
+                               onchange="queryNum1()">
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="houRom">房间数</label>
+                        <input type="text" class="form-control" placeholder="houRom" id="houRom" name="houRom"
+                               readonly="readonly">
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="houPeo">应住人数</label>
+                        <input type="text" class="form-control" placeholder="houPeo" id="houPeo" name="houPeo"
+                               readonly="readonly">
+                    </div>
+                   <!-- <div class="form-group col-md-6">
+                        <label for="userName">管理用户</label>
+                        <select class="form-control" id="userName" name="userName">
+                            <option id="select1"></option>
+                            <option th:each="user:${users}" th:value="${user.userName}"
+                                    th:text="${user.userName}"></option>
+                        </select>
+                    </div>-->
+                    <div class="form-group col-md-6">
+                        <label for="houDes">备注</label>
+                        <input type="text" class="form-control" placeholder="houDes" id="houDes" name="houDes">
+                    </div>
+                    <div class="form-group col-md-6 mb-3">
+                        <button type="submit" class="btn btn-primary btn-lg">保存</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--增加模态框-->
+<div class="modal fade" id="addModal" data-th-background="static" data-th-keytype="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!--顶部标题-->
+            <div class="modal-header">
+                <!--标题-->
+                <h5>增加宿舍楼信息</h5>
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <!--内容-->
+            <div class="modal-body">
+                <form id="formEditDoctor1" action="/house/houseAdd" method="post">
+                    <input type="text" hidden id="id1" name="id">
+                    <div class="form-group col-md-6">
+                        <label for="houId">楼房号</label>
+                        <input type="text" class="form-control" placeholder="houId" id="houId1" name="houId">
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="houAdd">地址</label>
+                        <input type="text" class="form-control" placeholder="houAdd" id="houAdd1" name="houAdd">
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="houNum">楼层数</label>
+                        <input type="text" class="form-control" placeholder="houNum" id="houNum1" name="houNum"
+                               onchange="queryNum11()">
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="houDes">备注</label>
+                        <input type="text" class="form-control" placeholder="houDes" id="houDes1" name="houDes">
+                    </div>
+                    <div class="form-group col-md-6 mb-3">
+                        <button type="submit" class="btn btn-primary btn-lg">保存</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /Back to Top -->
+<!-- Jquery Library-->
+<script th:src="@{/js/jquery-3.2.1.min.js}"></script>
+<!-- Popper Library-->
+<script th:src="@{/js/popper.min.js}"></script>
+<!-- Bootstrap Library-->
+<script th:src="@{/js/bootstrap.min.js}"></script>
+<!-- Datatable  -->
+<script th:src="@{/datatable/jquery.dataTables.min.js}"></script>
+<script th:src="@{/datatable/dataTables.bootstrap4.min.js}"></script>
+<!-- Custom Script-->
+<script th:src="@{/js/custom.js}"></script>
+<script th:src="@{/js/custom-datatables.js}"></script>
+
+
+<script th:inline="javascript">
+    /*全选*/
+    $("#select-all").click(function () {
+        $("input[name='id']").each(function () {
+            if (this.checked) {
+                this.checked = false;
+            } else {
+                this.checked = true;
+            }
+        });
+    })
+
+
+    /*批量删除*/
+    function delHouse() {
+        var result = "";
+        var count = 0;
+        $("input[name='id']:checked").each(function () {
+            if ($(this).is(':checked')) {
+                result += $(this).attr('value') + ",";
+                count++;
+            } else {
+            }
+        });
+        if (!confirm("确定删除这" + count + "条宿舍信息?")) {
+            return;
+        }
+        if (result == "") {
+            alert("请选择您要删除的数据")
+        } else {
+            window.location.href = "/house/deleteHouse?tag=" + result;
+            alert("删除成功");
+            /*返回上一个页面并刷新*/
+           /* window.location.href = "/house/houses";*/
+        }
+    }
+
+    /*打开增加模态框*/
+    function openAddModal() {
+        $("#addModal").modal('show');
+    }
+
+    /*打开修改模态框*/
+    function openEditModal() {
+        var id = "";
+        $("input[name='id']:checked").each(function () {
+            id = $(this).attr('value');
+        });
+        if (id == "") {
+            alert("请选择要修改的数据")
+        } else {
+            /* $("#id").val(id);
+             $("#editModal").modal('show');*/
+
+            $.ajax({
+                cache: true,
+                type: "get",
+                url: "/house/findOneHouse",
+                data: {"id": id},
+                success: function (data) {
+                    console.log(data);
+                    $("#houId").val(data[0].houId);
+                    $("#houAdd").val(data[0].houAdd);
+                    $("#houNum").val(data[0].houNum);
+                    $("#houRom").val(data[0].houRom);
+                    $("#houPeo").val(data[0].houPeo);
+                    $("#houDes").val(data[0].houDes);
+                    //给下拉列表的第一个下拉框赋值
+                    document.getElementById("select1").text = data[0].userName;
+                    $("#select1").val(data[0].userName);
+                    document.getElementById("select1").selected = 'selected';
+
+
+                },
+                error: function () {
+                    notifyError("获取数据失败，请重新刷新！")
+                }
+            });
+            $("#id").val(id);
+            $("#editModal").modal('show');
+
+        }
+    }
+
+    /*判断是否为正整数 */
+    function queryNum1() {
+        var houNum = $("#houNum").val();
+        var r = /^[0-9]*[1-9][0-9]*$/　　//正整数
+        if (r.test(houNum)) {
+            return true;
+        } else {
+            alert("请输入正整数")
+        }
+    }
+
+
+
+    /*判断是否为正整数 */
+    function queryNum11() {
+        var houNum = $("#houNum1").val();
+        var r = /^[0-9]*[1-9][0-9]*$/　　//正整数
+        if (r.test(houNum)) {
+            return true;
+        } else {
+            alert("请输入正整数")
+        }
+    }
+
+
+</script>
+
+
+</body>
+</html>
