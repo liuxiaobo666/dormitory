@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>电费信息</title>
+    <!-- Fav  Icon Link -->
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <!-- themify icons CSS -->
+    <link rel="stylesheet" th:href="@{/css/themify-icons.css}">
+    <!-- Animations CSS -->
+    <link rel="stylesheet" th:href="@{/css/animate.css}">
+    <!-- Main CSS -->
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <link rel="stylesheet" th:href="@{/css/green.css}" id="style_theme">
+    <link rel="stylesheet" th:href="@{/css/responsive.css}">
+    <!-- morris charts -->
+    <link rel="stylesheet" th:href="@{/charts/css/morris.css}">
+    <!-- jvectormap -->
+    <link rel="stylesheet" th:href="@{/css/jquery-jvectormap.css}">
+    <link rel="stylesheet" th:href="@{/datatable/dataTables.bootstrap4.min.css}">
+    <link rel="stylesheet" th:href="@{/css/layui.css}" media="all">
+
+    <script th:src="@{/js/modernizr.min.js}"></script>
+</head>
+
+<body>
+<!-- Pre Loader -->
+<div class="loading">
+    <div class="spinner">
+        <div class="double-bounce1"></div>
+        <div class="double-bounce2"></div>
+    </div>
+</div>
+
+
+<div class="wrapper">
+    <div id="content">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="widget-area-2 lochana-box-shadow">
+                        <h3 class="widget-title">全部电费信息 </h3>
+                        <div class="table-responsive mb-3">
+                            <table id="tableId" class="table table-bordered table-striped">
+                                <thead>
+                                <tr>
+                                    <th class="no-sort">
+                                        <div class="custom-control custom-checkbox">
+                                            <input class="custom-control-input" type="checkbox" id="select-all">
+                                            <label class="custom-control-label" for="select-all"></label>
+                                        </div>
+                                    </th>
+                                    <th>月份</th>
+                                    <th>楼房号</th>
+                                    <th>寝室号</th>
+                                    <th>度数</th>
+                                    <th>单价</th>
+                                    <th>总费用</th>
+                                    <th>处理人</th>
+                                    <th>处理人账号</th>
+                                    <th>缴费账号</th>
+                                    <th>缴费时间</th>
+                                    <th>缴费方式</th>
+                                    <th>缴费状态</th>
+                                    <th>备注</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="electrics:${electrics}">
+                                    <td>
+                                        <div class="custom-control custom-checkbox">
+                                            <input class="custom-control-input" type="checkbox" th:id="${electrics.id}"
+                                                   name="id" th:value="${electrics.id}">
+                                            <label class="custom-control-label" th:for="${electrics.id}"></label>
+                                        </div>
+                                    </td>
+                                    <td th:text="${electrics.payMonth}"></td>
+                                    <td th:text="${electrics.houId}"></td>
+                                    <td th:text="${electrics.dorId}"></td>
+                                    <td th:text="${electrics.degrees}"></td>
+                                    <td th:text="${electrics.price}"></td>
+                                    <td th:text="${electrics.allPrice}"></td>
+                                    <td th:text="${electrics.conductor}"></td>
+                                    <td th:text="${electrics.handleUser}"></td>
+                                    <td th:text="${electrics.payUser}"></td>
+                                    <td th:text="${electrics.payDate}"></td>
+                                    <td th:text="${electrics.payType}"></td>
+                                    <td th:text="${electrics.payState}"></td>
+                                    <td th:text="${electrics.eleDes}"></td>
+                                </tr>
+                                </tbody>
+                            </table>
+
+                            <button type="button" class="btn btn-primary mt-3 mb-0" onclick="openAddModal()"><span
+                                    class="ti-pencil-alt"></span> 增加
+                            </button>
+                            <button type="button" class="btn btn-primary mt-3 mb-0" onclick="openEditModal()"><span
+                                    class="ti-pencil-alt"></span> 缴费
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Back to Top -->
+<a id="back-to-top" href="#" class="back-to-top">
+    <span class="ti-angle-up"></span>
+</a>
+
+
+<!--增加模态框-->
+<div class="modal fade" id="addModal" data-th-background="static" data-th-keytype="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!--顶部标题-->
+            <div class="modal-header">
+                <!--标题-->
+                <h5>增加电费</h5>
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <!--内容-->
+            <div class="modal-body">
+                <form id="formEditDoctor1" action="/electric/electricAdd" method="post" >
+                    <input type="text" hidden id="id1" name="id">
+                    <div class="form-group col-md-6">
+                        <label for="payMonth">月份</label>
+                        <input type="text" class="form-control" placeholder="payMonth" id="payMonth" name="payMonth" onchange="queryNum1()">
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="dorId">寝室号</label>
+                        <input type="text" class="form-control" placeholder="dorId" id="dorId" name="dorId"
+                        >
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="degrees">使用度数</label>
+                        <input type="text" class="form-control" placeholder="degrees" id="degrees" name="degrees"
+                               onchange="queryNum2()">
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="price">单价</label>
+                        <input type="text" class="form-control" placeholder="price" id="price" name="price"
+                               onchange="queryNum3()">
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="eleDes">备注</label>
+                        <input type="text" class="form-control" placeholder="eleDes" id="eleDes" name="eleDes">
+                    </div>
+                    <div class="form-group col-md-6 mb-3">
+                        <button type="submit" class="btn btn-primary btn-lg">保存</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /Back to Top -->
+<!-- Jquery Library-->
+<script th:src="@{/js/jquery-3.2.1.min.js}"></script>
+<!-- Popper Library-->
+<script th:src="@{/js/popper.min.js}"></script>
+<!-- Bootstrap Library-->
+<script th:src="@{/js/bootstrap.min.js}"></script>
+<!-- Datatable  -->
+<script th:src="@{/datatable/jquery.dataTables.min.js}"></script>
+<script th:src="@{/datatable/dataTables.bootstrap4.min.js}"></script>
+<!-- Custom Script-->
+<script th:src="@{/js/custom.js}"></script>
+<script th:src="@{/js/custom-datatables.js}"></script>
+
+<script th:inline="javascript">
+
+    /*打开增加模态框*/
+    function openAddModal() {
+        $("#addModal").modal('show');
+    }
+
+    /*一键缴费*/
+    function openEditModal() {
+        var id = "";
+        $("input[name='id']:checked").each(function () {
+            id = $(this).attr('value');
+        });
+        if (id == "") {
+            alert("请选择要缴费的寝室")
+        } else {
+            if(!confirm("您确定要为该寝室缴费吗")){
+                return;
+            }
+            $.ajax({
+                cache: true,
+                type: "get",
+                url: "/electric/electricUpdate",
+                data: {"id": id},
+                success: function (data) {
+                    console.log(data);
+                    if (data == 1){
+                        alert("缴费成功！")
+                        window.location.href = "/electric/electrics";
+                    }else if (data == 0) {
+                        alert("该寝室已缴过电费")
+                        window.location.href = "/electric/electrics";
+                    }else {
+                        alert("缴费失败")
+                        window.location.href = "/electric/electrics";
+                    }
+                },
+                error: function () {
+                    notifyError("获取数据失败，请重新刷新！")
+                }
+            });
+        }
+    }
+
+    /*验证提交信息，某些不能为空*/
+    $("#submit").click(function () {
+        var payMonth = $("#payMonth").val();
+        var dorId = $("#dorId").val();
+        var price = $("#price").val();
+        var degrees = $("#degrees").val();
+        if (payMonth.length == 0) {
+            alert("月份不能空，请重新输入！")
+            return false;
+        } else if (dorId.length == 0) {
+            alert("寝室不能空，请重新输入！")
+            return false;
+        } else if (price.length == 0) {
+            alert("单价不能空，请重新输入！")
+            return false;
+        } else if (degrees.length == 0) {
+            alert("度数不能空，请重新输入！")
+            return false;
+        }else {
+            return true;
+        }
+    })
+
+    /*判断是否为正整数 */
+    function queryNum1() {
+
+        var payMonth = $("#payMonth").val();
+        //验证12个月的正则表达式
+        var r =/^(0?[1-9]|1[0-2])$/; //正整数
+        if (r.test(payMonth)) {
+            return true;
+        } else {
+            alert("请输入正确月份")
+        }
+    }
+
+    /*判断是否为正数 */
+    function queryNum2() {
+        var degrees = $("#degrees").val();
+
+        var reg=/^[+]{0,1}(\d+)$|^[+]{0,1}(\d+\.\d+)$/; //非负数
+        if (reg.test(degrees)) {
+            return true;
+        } else {
+            alert("请输入正数")
+        }
+    }
+
+    /*判断是否为正数 */
+    function queryNum3() {
+        var price = $("#price").val();
+
+        var reg=/^[+]{0,1}(\d+)$|^[+]{0,1}(\d+\.\d+)$/; //非负数
+        if (reg.test(price)) {
+            return true;
+        } else {
+            alert("请输入正数")
+        }
+    }
+
+
+
+</script>
+
+
+</body>
+</html>

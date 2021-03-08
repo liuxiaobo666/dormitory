@@ -38,6 +38,12 @@ public interface DormDao extends JpaRepository<Dorm, Object> {
     @Query(nativeQuery = true, value = "select * from dorm where hou_id=:houId and dor_id=:dorId ")
     List<Dorm> findByHouIdAndDorId(@Param("houId") String houId, @Param("dorId") String dorId);
 
+    //更据宿舍id去查找
+    @Transactional
+    @Modifying
+    @Query(nativeQuery = true, value = "select * from dorm where dor_id=:dorId ")
+    List<Dorm> findDormByDorId(@Param("dorId") String dorId);
+
     //根据ID去修改寝室信息
     @Transactional()
     @Modifying
