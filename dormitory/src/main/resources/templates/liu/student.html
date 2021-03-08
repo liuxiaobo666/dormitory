@@ -98,16 +98,13 @@
                                     <td th:text="${students.stuAdd}"></td>
                                     <td th:text="${students.email}"></td>
                                     <td th:text="${students.stuTel}"></td>
-                                    <td th:text="${students.stuSta}"></td>
+                                    <td th:text="${students.stuSta}" style="color: red"></td>
                                     <td th:text="${students.stuDes}"></td>
                                     <td th:text="${students.photo}"></td>
                                 </tr>
                                 </tbody>
                             </table>
 
-                            <button type="button" class="btn btn-danger mt-3 mb-0" onclick="delHouse()"><span
-                                    class="ti-trash"></span> 删除
-                            </button>
                             <button type="button" class="btn btn-primary mt-3 mb-0" onclick="openEditModal()"><span
                                     class="ti-pencil-alt"></span> 编辑
                             </button>
@@ -131,49 +128,87 @@
             <!--顶部标题-->
             <div class="modal-header">
                 <!--标题-->
-                <h5>编辑宿舍楼信息</h5>
+                <h5>编辑学生信息</h5>
                 <button type="button" class="close" data-dismiss="modal">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <!--内容-->
             <div class="modal-body">
-                <form id="formEditDoctor" action="/house/houseUpdate" method="post">
+                <form id="formEditDoctor" action="/student/studentUpdate" method="post">
                     <input type="text" hidden id="id" name="id">
                     <div class="form-group col-md-6">
+                        <label for="stuId">学号</label>
+                        <input type="text" class="form-control" placeholder="stuId" id="stuId" name="stuId" readonly="readonly">
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="stuName">姓名</label>
+                        <input type="text" class="form-control" placeholder="stuName" id="stuName" name="stuName" readonly="readonly">
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="idCard">身份证号码</label>
+                        <input type="text" class="form-control" placeholder="idCard" id="idCard" name="idCard"
+                               onchange="queryNum3()">
+                    </div>
+                    <div class="form-group col-md-6">
                         <label for="houId">楼房号</label>
-                        <input type="text" class="form-control" placeholder="houId" id="houId" name="houId">
-                    </div>
-                    <div class="form-group col-md-6">
-                        <label for="houAdd">地址</label>
-                        <input type="text" class="form-control" placeholder="houAdd" id="houAdd" name="houAdd">
-                    </div>
-                    <div class="form-group col-md-6">
-                        <label for="houNum">楼层数</label>
-                        <input type="text" class="form-control" placeholder="houNum" id="houNum" name="houNum"
-                               onchange="queryNum1()">
-                    </div>
-                    <div class="form-group col-md-6">
-                        <label for="houRom">房间数</label>
-                        <input type="text" class="form-control" placeholder="houRom" id="houRom" name="houRom"
-                               readonly="readonly">
-                    </div>
-                    <div class="form-group col-md-6">
-                        <label for="houPeo">应住人数</label>
-                        <input type="text" class="form-control" placeholder="houPeo" id="houPeo" name="houPeo"
-                               readonly="readonly">
-                    </div>
-                   <!-- <div class="form-group col-md-6">
-                        <label for="userName">管理用户</label>
-                        <select class="form-control" id="userName" name="userName">
+                        <select class="form-control" id="houId" name="houId">
                             <option id="select1"></option>
-                            <option th:each="user:${users}" th:value="${user.userName}"
-                                    th:text="${user.userName}"></option>
+                            <option th:each="houses:${houses}" th:value="${houses.houId}"
+                                    th:text="${houses.houId}"></option>
                         </select>
-                    </div>-->
+                    </div>
                     <div class="form-group col-md-6">
-                        <label for="houDes">备注</label>
-                        <input type="text" class="form-control" placeholder="houDes" id="houDes" name="houDes">
+                        <label for="dorId">寝室号</label>
+                        <select class="form-control" id="dorId" name="dorId">
+                            <option id="select2"></option>
+                        </select>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="stuStudy">专业</label>
+                        <input type="text" class="form-control" placeholder="stuStudy" id="stuStudy" name="stuStudy">
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="stuClass">班级</label>
+                        <input type="text" class="form-control" placeholder="stuClass" id="stuClass" name="stuClass">
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="stuCname">辅导员</label>
+                        <input type="text" class="form-control" placeholder="stuCname" id="stuCname" name="stuCname">
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="stuPolit">政治面貌</label>
+                        <select class="form-control" id="stuPolit" name="stuPolit">
+                            <option id="select3"></option>
+                            <option>群众</option>
+                            <option>团员</option>
+                            <option>党员</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="stuAdd">家庭住址</label>
+                        <input type="text" class="form-control" placeholder="stuAdd" id="stuAdd" name="stuAdd">
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="email">邮箱</label>
+                        <input type="text" class="form-control" placeholder="email" id="email" name="email" onchange="queryNum2()">
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="stuTel">联系方式</label>
+                        <input type="text" class="form-control" placeholder="stuTel" id="stuTel" name="stuTel" onchange="queryNum1()">
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="stuSta">在校状态</label>
+                        <select class="form-control" id="stuSta" name="stuSta">
+                            <option id="select4"></option>
+                            <option>永久离校</option>
+                            <option>在校</option>
+                            <option>短期离校</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="stuDes">备注</label>
+                        <input type="text" class="form-control" placeholder="stuDes" id="stuDes" name="stuDes">
                     </div>
                     <div class="form-group col-md-6 mb-3">
                         <button type="submit" class="btn btn-primary btn-lg">保存</button>
@@ -184,47 +219,6 @@
     </div>
 </div>
 
-<!--增加模态框-->
-<div class="modal fade" id="addModal" data-th-background="static" data-th-keytype="false">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <!--顶部标题-->
-            <div class="modal-header">
-                <!--标题-->
-                <h5>增加宿舍楼信息</h5>
-                <button type="button" class="close" data-dismiss="modal">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <!--内容-->
-            <div class="modal-body">
-                <form id="formEditDoctor1" action="/house/houseAdd" method="post">
-                    <input type="text" hidden id="id1" name="id">
-                    <div class="form-group col-md-6">
-                        <label for="houId">楼房号</label>
-                        <input type="text" class="form-control" placeholder="houId" id="houId1" name="houId">
-                    </div>
-                    <div class="form-group col-md-6">
-                        <label for="houAdd">地址</label>
-                        <input type="text" class="form-control" placeholder="houAdd" id="houAdd1" name="houAdd">
-                    </div>
-                    <div class="form-group col-md-6">
-                        <label for="houNum">楼层数</label>
-                        <input type="text" class="form-control" placeholder="houNum" id="houNum1" name="houNum"
-                               onchange="queryNum11()">
-                    </div>
-                    <div class="form-group col-md-6">
-                        <label for="houDes">备注</label>
-                        <input type="text" class="form-control" placeholder="houDes" id="houDes1" name="houDes">
-                    </div>
-                    <div class="form-group col-md-6 mb-3">
-                        <button type="submit" class="btn btn-primary btn-lg">保存</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
 <!-- /Back to Top -->
 <!-- Jquery Library-->
 <script th:src="@{/js/jquery-3.2.1.min.js}"></script>
@@ -241,46 +235,6 @@
 
 
 <script th:inline="javascript">
-    /*全选*/
-    $("#select-all").click(function () {
-        $("input[name='id']").each(function () {
-            if (this.checked) {
-                this.checked = false;
-            } else {
-                this.checked = true;
-            }
-        });
-    })
-
-
-    /*批量删除*/
-    function delHouse() {
-        var result = "";
-        var count = 0;
-        $("input[name='id']:checked").each(function () {
-            if ($(this).is(':checked')) {
-                result += $(this).attr('value') + ",";
-                count++;
-            } else {
-            }
-        });
-        if (!confirm("确定删除这" + count + "条宿舍信息?")) {
-            return;
-        }
-        if (result == "") {
-            alert("请选择您要删除的数据")
-        } else {
-            window.location.href = "/house/deleteHouse?tag=" + result;
-            alert("删除成功");
-            /*返回上一个页面并刷新*/
-           /* window.location.href = "/house/houses";*/
-        }
-    }
-
-    /*打开增加模态框*/
-    function openAddModal() {
-        $("#addModal").modal('show');
-    }
 
     /*打开修改模态框*/
     function openEditModal() {
@@ -297,22 +251,37 @@
             $.ajax({
                 cache: true,
                 type: "get",
-                url: "/house/findOneHouse",
+                url: "/student/findOneStudent",
                 data: {"id": id},
                 success: function (data) {
                     console.log(data);
+                    $("#stuId").val(data[0].stuId);
+                    $("#stuName").val(data[0].stuName);
+                    $("#idCard").val(data[0].idCard);
                     $("#houId").val(data[0].houId);
-                    $("#houAdd").val(data[0].houAdd);
-                    $("#houNum").val(data[0].houNum);
-                    $("#houRom").val(data[0].houRom);
-                    $("#houPeo").val(data[0].houPeo);
-                    $("#houDes").val(data[0].houDes);
                     //给下拉列表的第一个下拉框赋值
-                    document.getElementById("select1").text = data[0].userName;
-                    $("#select1").val(data[0].userName);
+                    document.getElementById("select1").text = data[0].houId;
+                    $("#select1").val(data[0].houId);
                     document.getElementById("select1").selected = 'selected';
-
-
+                    //给下拉列表的第一个下拉框赋值
+                    document.getElementById("select2").text = data[0].dorId;
+                    $("#select2").val(data[0].dorId);
+                    document.getElementById("select2").selected = 'selected';
+                    $("#stuStudy").val(data[0].stuStudy);
+                    $("#stuClass").val(data[0].stuClass);
+                    $("#stuCname").val(data[0].stuCname);
+                    //给下拉列表的第一个下拉框赋值
+                    document.getElementById("select3").text = data[0].stuPolit;
+                    $("#select3").val(data[0].stuPolit);
+                    document.getElementById("select3").selected = 'selected';
+                    $("#stuAdd").val(data[0].stuAdd);
+                    $("#email").val(data[0].email);
+                    $("#stuTel").val(data[0].stuTel);
+                    //给下拉列表的第一个下拉框赋值
+                    document.getElementById("select4").text = data[0].stuSta;
+                    $("#select4").val(data[0].stuSta);
+                    document.getElementById("select4").selected = 'selected';
+                    $("#stuDes").val(data[0].stuDes);
                 },
                 error: function () {
                     notifyError("获取数据失败，请重新刷新！")
@@ -324,30 +293,68 @@
         }
     }
 
-    /*判断是否为正整数 */
+    //寝室楼联动寝室
+    $("#houId").change(function () {
+        var houId = $("#houId").val();
+        if (houId == " " || houId == '选择宿舍楼') {
+            return;
+        }
+        console.log("我是" + houId);
+        $.ajax({
+            cache: true,
+            type: "get",
+            url: "/dorm/findDormByHouId",
+            data: {"houId": houId},
+            success: function (data) {
+                console.log(data);
+                var dorId = $("#dorId").empty();
+                for (var i = 0; i < data.length; i++) {
+                    dorId.append("<option value ='" + data[i].dorId + "'>" + data[i].dorId + "</option>");
+                }
+            },
+            error: function () {
+                notifyError("获取数据失败，请重新刷新！")
+            }
+        })
+    })
+
+    /*判断是否电话号码 */
     function queryNum1() {
-        var houNum = $("#houNum").val();
-        var r = /^[0-9]*[1-9][0-9]*$/　　//正整数
-        if (r.test(houNum)) {
+        var tel = document.getElementById('stuTel').value;
+        var reg = /^((0\d{2,3}-\d{7,8})|(1[34578]\d{9}))$/; //校验手机号和固定电话
+        var gu = /^(\(\d{3,4}\)|\d{3,4}-|\s)?\d{7,14}$/;
+        if (!reg.test(tel) || !gu.test(tel)) {
+            alert("请输入正确的手机号");
+            return false;
+        }else {
             return true;
+        }
+
+    }
+
+    /*邮箱验证*/
+    function queryNum2() {
+        var reg = new RegExp("^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+.){1,63}[a-z0-9]+$"); //正则表达式
+        var obj = document.getElementById("email"); //要验证的对象
+        if (!reg.test(obj.value)) { //正则验证不通过，格式不对
+            alert("邮箱格式不正确!");
+            return false;
         } else {
-            alert("请输入正整数")
+            return true;
         }
     }
 
-
-
-    /*判断是否为正整数 */
-    function queryNum11() {
-        var houNum = $("#houNum1").val();
-        var r = /^[0-9]*[1-9][0-9]*$/　　//正整数
-        if (r.test(houNum)) {
+    /*身份证验证*/
+    function queryNum3() {
+        var idCard = document.getElementById('idCard').value;
+        var reg = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/;
+        if (reg.test(idCard)){
             return true;
-        } else {
-            alert("请输入正整数")
+        }else {
+            alert("身份证格式不正确")
+            return false;
         }
     }
-
 
 </script>
 

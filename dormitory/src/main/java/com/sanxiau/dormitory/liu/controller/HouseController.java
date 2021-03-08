@@ -62,7 +62,7 @@ public class HouseController {
     public List<House> findOneHouse(int id, HttpServletRequest request) {
         System.out.println("....." + id);
         List<House> house = new ArrayList<>();
-        house = houseDao.findById(id);
+        house = houseDao.findById1(id);
         //把楼房号存入session
         request.getSession().setAttribute("houId", house.get(0).getHouId());
         return house;
@@ -86,7 +86,7 @@ public class HouseController {
                 houseDao.houseUpdate(house.getId(), house.getHouId(), house.getHouAdd(), house.getHouNum(), house.getHouRom(), house.getHouPeo(), house.getUserName(), house.getHouDes());
                 return "redirect:/house/houses";
             } else {
-                List<House> house1 = houseDao.findById(house.getId());
+                List<House> house1 = houseDao.findById1(house.getId());
                 if (null == house1 || house1.isEmpty()) {
                     //管理用户不为空修改用户状态
                     if ("" != house.getUserName() && null != house.getUserName()) {
@@ -139,7 +139,7 @@ public class HouseController {
         for (int i = 0; i < strs.length; i++) {
             try {
                 //把楼房已经有的宿管状态改变
-                List<House> list = houseDao.findById(Integer.valueOf(strs[i]));
+                List<House> list = houseDao.findById1(Integer.valueOf(strs[i]));
                 userDao.updateUserByUserName(list.get(0).getUserName(), "1");
                 //删除宿舍楼信息
                 houseDao.deleteHouseById(Collections.singletonList(Integer.valueOf(strs[i])));

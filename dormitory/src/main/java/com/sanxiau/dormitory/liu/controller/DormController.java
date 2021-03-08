@@ -73,7 +73,7 @@ public class DormController {
         return dorm;
     }
 
-    //根据寝室楼编号去查询寝室
+    //根据寝室楼编号去查询有空余床位的寝室
     @ResponseBody
     @GetMapping("/findDormByHouId")
     public List<Dorm> findDormByHouId(String houId, HttpServletRequest request) {

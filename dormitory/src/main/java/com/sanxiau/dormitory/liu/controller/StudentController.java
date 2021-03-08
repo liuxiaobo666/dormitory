@@ -1,10 +1,7 @@
 package com.sanxiau.dormitory.liu.controller;
 
 import com.sanxiau.dormitory.liu.dao.*;
-import com.sanxiau.dormitory.liu.entity.House;
-import com.sanxiau.dormitory.liu.entity.Riches;
-import com.sanxiau.dormitory.liu.entity.Student;
-import com.sanxiau.dormitory.liu.entity.User;
+import com.sanxiau.dormitory.liu.entity.*;
 import com.sanxiau.dormitory.liu.mapper.DormMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -45,17 +42,34 @@ public class StudentController {
     @RequestMapping("/students")
     public String allStudent(Model model) {
         List<Student> students = new ArrayList<>();
+        List<House> houses = new ArrayList<>();
         try {
 
             //查询全部学生
             students = studentDao.findAll();
+            //查询全部宿舍楼
+            houses = houseDao.findAll();
             model.addAttribute("students", students);
+            model.addAttribute("houses", houses);
 
         } catch (Exception e) {
             //错误处理
             return "liu/error";
         }
         return "liu/student";
+    }
+
+
+    //根据id查询学生
+    @ResponseBody
+    @GetMapping("/findOneStudent")
+    public List<Student> findOneStudent(int id, HttpServletRequest request) {
+        System.out.println("....." + id);
+        List<Student> student = new ArrayList<>();
+        student = studentDao.findById1(id);
+        //把宿舍号存入session
+        request.getSession().setAttribute("StudentDorId", student.get(0).getDorId());
+        return student;
     }
 
     //去增加页面
@@ -66,8 +80,6 @@ public class StudentController {
         model.addAttribute("houses", houses);
         return "liu/addStudent";
     }
-
-
 
 
     //增加学生
@@ -91,21 +103,30 @@ public class StudentController {
 
     }
 
-    //删除宿舍楼信息
-    @RequestMapping("/deleteHouse")
-    public String deleteHouse(String tag) {
-        String[] strs = tag.split(",");
-        for (int i = 0; i < strs.length; i++) {
-            try {
-                //把楼房已经有的宿管状态改变
-                List<House> list = houseDao.findById(Integer.valueOf(strs[i]));
-                userDao.updateUserByUserName(list.get(0).getUserName(), "1");
-                //删除宿舍楼信息
-                houseDao.deleteHouseById(Collections.singletonList(Integer.valueOf(strs[i])));
-            } catch (Exception e) {
-                return "liu/error";
+    //修改学生信息
+    @PostMapping("/studentUpdate")
+    public String studentUpdate(Student student, HttpServletRequest request) {
+        System.out.println("学生" + student);
+        try {
+            //得到学生的状态
+            String stuSta = student.getStuSta();
+            if (stuSta.equals("永久离校")){
+                //删除学生在宿舍的信息
+                richesDao.deleteRichesByStuId(student.getStuId());
+                //修改学生信息
+                studentDao.studentUpdate(student.getId(),student.getIdCard(),student.getHouId(),student.getDorId(),student.getStuStudy(),student.getStuClass(),student.getStuCname(),student.getStuPolit(),student.getStuAdd(),student.getEmail(),student.getStuTel(),student.getStuSta(),student.getStuDes());
+                return "redirect:/student/students";
+            }else {
+                //修改学生财产信息
+                richesDao.richesUpdateByStuId(student.getStuId(),student.getHouId(),student.getDorId());
+                //修改学生信息
+                studentDao.studentUpdate(student.getId(),student.getIdCard(),student.getHouId(),student.getDorId(),student.getStuStudy(),student.getStuClass(),student.getStuCname(),student.getStuPolit(),student.getStuAdd(),student.getEmail(),student.getStuTel(),student.getStuSta(),student.getStuDes());
+                return "redirect:/student/students";
             }
+
+        } catch (Exception e) {
+            return "liu/error";
         }
-        return "liu/success";
     }
+
 }

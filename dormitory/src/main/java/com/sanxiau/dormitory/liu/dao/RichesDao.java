@@ -30,10 +30,23 @@ public interface RichesDao extends JpaRepository<Riches, Object> {
     @Query(nativeQuery = true, value = "update riches set bed_id=:bedId,stool_id=:stoolId,desk_id=:deskId,keysend=:keySend,ric_des=:ricDes where id=:id")
     int richesUpdate(@Param("id") Integer id, @Param("bedId") String bedId, @Param("stoolId") String stoolId, @Param("deskId") String deskId,@Param("keySend") String keySend, @Param("ricDes") String ricDes);
 
+    //根据学号去修改寝室财产信息
+    @Transactional()
+    @Modifying
+    @Query(nativeQuery = true, value = "update riches set hou_id=:houId,dor_id=:dorId where stu_id=:stuId")
+    int richesUpdateByStuId(@Param("stuId") String stuId, @Param("houId") String houId, @Param("dorId") String dorId);
+
+
     //删除寝室信息
     @Transactional
     @Modifying
     @Query(nativeQuery = true, value = "delete  from riches  where  id in (:delId) ")
     int deleteRichesById(@Param("delId") List<Integer> delId);
+
+    //根据学生学号删除寝室信息
+    @Transactional
+    @Modifying
+    @Query(nativeQuery = true, value = "delete  from riches  where  stu_id=:stuId ")
+    int deleteRichesByStuId(@Param("stuId") String stuId);
 
 }

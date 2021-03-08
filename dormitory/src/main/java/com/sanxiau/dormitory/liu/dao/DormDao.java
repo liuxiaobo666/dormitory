@@ -26,10 +26,10 @@ public interface DormDao extends JpaRepository<Dorm, Object> {
     @Query(nativeQuery = true, value = "select * from dorm where id=:id")
     List<Dorm> findById1(@Param("id") Integer id);
 
-    //更据hou_id去查找
+    //更据hou_id去查找,应住人数大于实住人
     @Transactional
     @Modifying
-    @Query(nativeQuery = true, value = "select * from dorm where hou_id=:houId")
+    @Query(nativeQuery = true, value = "select * from dorm where hou_id=:houId and dor_num > dor_price")
     List<Dorm> findDormByHouId(@Param("houId") String houId);
 
     //更据宿舍id去查找
@@ -43,6 +43,8 @@ public interface DormDao extends JpaRepository<Dorm, Object> {
     @Modifying
     @Query(nativeQuery = true, value = "update dorm set dor_id=:dorId,dor_sex=:dorIex,dor_num=:dorNum,tel=:tel,rich=:rich,dor_des=:dorDes where id=:id")
     int dormUpdate(@Param("id") Integer id, @Param("dorId") String dorId, @Param("dorIex") String dorIex, @Param("dorNum") Integer dorNum,  @Param("tel") String tel,@Param("rich") String rich, @Param("dorDes") String dorDes);
+
+
 
     //删除寝室信息
     @Transactional
