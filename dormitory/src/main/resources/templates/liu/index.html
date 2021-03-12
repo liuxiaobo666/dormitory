@@ -11,7 +11,8 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="format-detection" content="telephone=no">
 
-    <link rel="stylesheet" th:href="@{/css/layui.css}"  media="all">
+    <link rel="stylesheet" th:href="@{/css/layui.css}" media="all">
+    <script th:src="@{/js/jquery-3.2.1.min.js}"></script>
 </head>
 <body class="layui-layout-body">
 <div class="layui-layout layui-layout-admin">
@@ -49,58 +50,202 @@
     <div class="layui-side layui-bg-black">
         <div class="layui-side-scroll">
             <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
-            <ul class="layui-nav layui-nav-tree"  lay-filter="test">
+            <ul class="layui-nav layui-nav-tree" lay-filter="test">
+                <li class="layui-nav-item"><a target="myFrameName" onclick="chang1()">首页</a></li>
                 <li class="layui-nav-item layui-nav-itemed">
                     <a class="" href="javascript:;">寝室基本信息</a>
                     <dl class="layui-nav-child">
-                        <dd><a target="myFrameName" href="/house/houses">宿舍楼管理</a></dd>
-                        <dd><a target="myFrameName" href="/dorm/dorms">寝室管理</a></dd>
-                        <dd><a target="myFrameName" href="/riches/riches">寝室学生财产管理</a></dd>
+                        <dd><a target="myFrameName" href="/house/houses" onclick="chang()">宿舍楼管理</a></dd>
+                        <dd><a target="myFrameName" href="/dorm/dorms" onclick="chang()">寝室管理</a></dd>
+                        <dd><a target="myFrameName" href="/riches/riches" onclick="chang()">寝室学生财产管理</a></dd>
                     </dl>
                 </li>
                 <li class="layui-nav-item">
-                    <a target="myFrameName"href="javascript:;">学生基本信息</a>
+                    <a target="myFrameName" href="javascript:;">学生基本信息</a>
                     <dl class="layui-nav-child">
-                        <dd><a target="myFrameName" href="/student/students">全部学生信息</a></dd>
-                        <dd><a target="myFrameName" href="/student/goAddStudent">添加学生信息</a></dd>
+                        <dd><a target="myFrameName" href="/student/students" onclick="chang()">全部学生信息</a></dd>
+                        <dd><a target="myFrameName" href="/student/goAddStudent" onclick="chang()">添加学生信息</a></dd>
                     </dl>
                 </li>
-                <li class="layui-nav-item"><a target="myFrameName" href="/electric/electrics">电费基本信息</a></li>
-                <li class="layui-nav-item"><a target="myFrameName" href="/test/test">发布商品</a></li>
+                <li class="layui-nav-item"><a target="myFrameName" href="/electric/electrics"
+                                              onclick="chang()">电费基本信息</a></li>
+                <li class="layui-nav-item"><a target="myFrameName" href="/notice/goAddNotice" onclick="chang()">发布公告</a></li>
             </ul>
         </div>
     </div>
 
     <div class="layui-body">
         <!-- 内容主体区域 -->
-        <div style="padding: 15px;">
+        <div style="padding: 15px;" id="div1">
+
+            <div class="layui-row">
+                <div class="layui-col-xs12 layui-col-md7">
+                    <!-- <div class="grid-demo grid-demo-bg1">移动：12/12、桌面：8/12</div>-->
+                    <div class="layui-carousel" id="test10">
+                        <div carousel-item="">
+                            <div><img th:src="@{/images/bishe4.jpg}"></div>
+                            <div><img th:src="@{/images/bishe1.jpg}"></div>
+                            <div><img th:src="@{/images/bishe2.jpg}"></div>
+                            <div><img th:src="@{/images/bishe3.jpg}"></div>
+                            <div><img th:src="@{/images/bishe5.jpg}"></div>
+                        </div>
+                    </div>
+
+
+                    <!-- <div class="grid-demo grid-demo-bg2">移动：6/12、桌面：12/12</div>-->
+                    <div style="margin-top: 15px">
+                        <span style="background-color: #40AFFE;color: white"> &nbsp;&nbsp;重庆三峡学院简介&nbsp;&nbsp;</span>
+                        <span>重庆三峡学院（Chongqing Three Gorges University）坐落于重庆市万州区，由重庆市人民政府举办，以文、工为主的全日制普通本科院校，入选首批“卓越农林人才教育培养计划”、教育部数据中国“百校工程”、“重庆市2011协同创新中心”，全国高校校园网站联盟理事单位，“一带一路”标准化教育与研究大学联盟成员，是山东大学对口支援高校。
+             重庆三峡学院创建于1956年，其前身为四川省万县初中师资训练班，先后更名为万县大学、万县专科学校、万县师范专科学校。1994年，万县师范专科学校与万县教育学院合并成立四川三峡学院，并升格为本科院校。2000年，学校更名为重庆三峡学院。2003年，重庆三峡经济学校并入。2013年，学校被批准为硕士学位授予单位。
+     </span>
+                    </div>
+
+                    <div style="margin-top: 15px">
+                        <span style="background-color: #40AFFE;color: white"> &nbsp;&nbsp;重庆三峡学院简介&nbsp;&nbsp;</span>
+                        <span>重庆三峡学院（Chongqing Three Gorges University）坐落于重庆市万州区，由重庆市人民政府举办，以文、工为主的全日制普通本科院校，入选首批“卓越农林人才教育培养计划”、教育部数据中国“百校工程”、“重庆市2011协同创新中心”，全国高校校园网站联盟理事单位，“一带一路”标准化教育与研究大学联盟成员，是山东大学对口支援高校。
+             重庆三峡学院创建于1956年，其前身为四川省万县初中师资训练班，先后更名为万县大学、万县专科学校、万县师范专科学校。1994年，万县师范专科学校与万县教育学院合并成立四川三峡学院，并升格为本科院校。2000年，学校更名为重庆三峡学院。2003年，重庆三峡经济学校并入。2013年，学校被批准为硕士学位授予单位。
+     </span>
+                    </div>
+
+                </div>
+                <div class="layui-col-xs6 layui-col-md5">
+                    <!--<div class="grid-demo">移动：6/12、桌面：4/12</div>-->
+                    <div class="layui-collapse" lay-filter="test"
+                         style="width: 490px; height: 100%; float: right; border-color: #40AFFE">
+                        <div class="layui-colla-item" style="background-color: #F2F2F2;height: 42px
+" >
+                            <h2 style="text-align: center;color: #40AFFE;top: 50%">公告公示
+                                    </h2>
+                        </div>
+                        <div class="layui-colla-item" th:each="notices:${notices}">
+                            <h2 class="layui-colla-title"><span th:text="${notices.title}"></span><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #9F9F9F; " th:text="${notices.date}" ></span><i
+                                    class="layui-icon layui-colla-icon"></i></h2>
+                            <div class="layui-colla-content">
+                                <p th:text="${notices.text}">
+                                </p><br>
+                                <p th:text="${notices.issuer}" style="text-align: right"></p>
+                            </div>
+                        </div>
+                        <div class="layui-colla-item" style="height: 52px;background-color: #F2F2F2">
+                            <h2 class="layui-colla-title"><a target="myFrameName" href="/notice/goNotice" onclick="chang()"><strong style="color: #40AFFE">更多</strong></a></h2>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+        <div style="padding: 10px; display: none" id="div2">
             <iframe id="myFrameId" name="myFrameName" width="100%"
                     height="680px" style="border: medium none"></iframe>
         </div>
+
     </div>
 
-    <div class="layui-footer" style="background-color: #999999 ; text-align: center" >
+    <div class="layui-footer" style="background-color: #999999 ; text-align: center">
         <span>版权所有：重庆三峡学院&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
         <span>咨询热线：19102625718&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-        <a target="_blank" href="http://beian.miit.gov.cn/" style="display:inline-block;text-decoration:none;height:20px;line-height:20px;color:#303d5d;"><img th:src="@{/images/sanxiau2.png}" style="vertical-align: middle;position: relative;margin-top: -3px;" />黔ICP备2020008732号</a>
+        <a target="_blank" href="http://beian.miit.gov.cn/"
+           style="display:inline-block;text-decoration:none;height:20px;line-height:20px;color:#303d5d;"><img
+                th:src="@{/images/sanxiau2.png}" style="vertical-align: middle;position: relative;margin-top: -3px;"/>黔ICP备2020008732号</a>
     </div>
 </div>
 <script th:src="@{/js/layui.js}" charset="utf-8"></script>
+<!--轮播图-->
 <script>
-    //JavaScript代码区域
-    layui.use('element', function(){
-        var element = layui.element;
+    layui.use(['carousel', 'form'], function () {
+        var carousel = layui.carousel
+            , form = layui.form;
 
+        //常规轮播
+        carousel.render({
+            elem: '#test1'
+            , arrow: 'always'
+        });
+
+        //改变下时间间隔、动画类型、高度
+        carousel.render({
+            elem: '#test2'
+            , interval: 1800
+            , anim: 'fade'
+            , height: '120px'
+        });
+
+        //设定各种参数
+        var ins3 = carousel.render({
+            elem: '#test3'
+        });
+        //图片轮播
+        carousel.render({
+            elem: '#test10'
+            , width: '778px'
+            , height: '440px'
+            , interval: 4000
+        });
+
+        //事件
+        carousel.on('change(test4)', function (res) {
+            console.log(res)
+        });
+
+        var $ = layui.$, active = {
+            set: function (othis) {
+                var THIS = 'layui-bg-normal'
+                    , key = othis.data('key')
+                    , options = {};
+
+                othis.css('background-color', '#5FB878').siblings().removeAttr('style');
+                options[key] = othis.data('value');
+                ins3.reload(options);
+            }
+        };
+
+
+        //自动轮播
+        ins3.reload({
+            autoplay: this.checked
+        });
+
+        $('.demoSet').on('keyup', function () {
+            var value = this.value
+                , options = {};
+            if (!/^\d+$/.test(value)) return;
+
+            options[this.name] = value;
+            ins3.reload(options);
+        });
+
+        //其它示例
+        $('.demoTest .layui-btn').on('click', function () {
+            var othis = $(this), type = othis.data('type');
+            active[type] ? active[type].call(this, othis) : '';
+        });
     });
 </script>
 <script>
-    var _hmt = _hmt || [];
-    (function() {
-        var hm = document.createElement("script");
-        hm.src = "https://hm.baidu.com/hm.js?d214947968792b839fd669a4decaaffc";
-        var s = document.getElementsByTagName("script")[0];
-        s.parentNode.insertBefore(hm, s);
-    })();
+    //JavaScript代码区域
+    layui.use('element', function () {
+        var element = layui.element;
+
+    });
+
+    //显示与隐藏
+    function chang() {
+        //显示要操作的内容
+        $("#div2").show();
+        $("#div1").hide();
+    }
+
+    //显示与隐藏
+    function chang1() {
+        //显示要操作的内容
+        $("#div2").hide();
+        $("#div1").show();
+    }
 </script>
+
 </body>
 </html>

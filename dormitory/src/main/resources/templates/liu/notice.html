@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>员工列表</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap-theme.min.css}">
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <script  th:src="@{/js/jquery-1.11.3.min.js}"></script>
+    <script th:src="@{/js/bootstrap.min.js}"></script>
+    <script  th:src="@{/js/jqPaginator.js}"></script>
+</head>
+<body>
+<table class="table table-hover" id="a1">
+    <tr>
+    </tr>
+    <tbody id="tab"></tbody>
+    <tr>
+        <td colspan="8">
+            <ul class="pagination" id="pagination1"></ul>
+        </td>
+    </tr>
+</table>
+
+<div id="A" style="display: none">
+    <table class="table table-hover" >
+        <tr>
+        </tr>
+        <tbody id="tab1">
+        </tbody>
+        <tr>
+            <td colspan="8" align="center">
+                <input class="button button-block text-big input-big" type="button" value="返回" onclick="f1()">
+            </td>
+        </tr>
+    </table>
+</div>
+<script>
+    var total = 0;//总条数
+    var totalPages = 0;//总页数
+    var visiblePages = 5;//显示的页码数
+    var currentPage = 0;//当前页码
+    $(document).ready(function(){
+        /* 第一次访问，初始化全局变量 */
+        showPage(-1);
+
+        $('#pagination1').jqPaginator({
+            totalPages: totalPages,
+            visiblePages: visiblePages,
+            currentPage: currentPage,
+            totalCounts: total,
+            first: '<li class="first"><a href="javascript:void(0);">首页</a></li>',
+            prev: '<li class="prev"><a href="javascript:void(0);">上一页</a></li>',
+            next: '<li class="next"><a href="javascript:void(0);">下一页</a></li>',
+            last: '<li class="last"><a href="javascript:void(0);">尾页</a></li>',
+            page: '<li class="page"><a href="javascript:void(0);">&nbsp;&nbsp;{{page}}&nbsp;&nbsp;</a></li>',
+            onPageChange: function (num) {
+                /* num代表改变过后的页码 */
+                showPage(num);
+            }
+        });
+    });
+
+    function showPage(n){
+        $.ajax({
+            //cache: true,
+            //type: "get",
+            url:"/notice/AllNotice",
+            async:false,//同步请求（默认）
+            type:"POST",
+            dataType:"json",
+            data:{"pageNum":n,"pageSize":6},
+            success:function(data){
+                console.log(data);
+                if(n==-1){/*理解为第一次访问 ，初始化全局变量 */
+                    total = data.total;
+                    totalPages = data.pages;
+                    currentPage = data.pageNum;
+                }
+                $("#tab").html("");
+                if(data.list.length>0){
+                    //使用jquery形式遍历
+                    $.each(data.list,function(n,val){
+                        var str = "";
+                        str+="<tr>"+
+                            "<td>"+"</td>"+
+                            "<td>"+">"+val.title+"</td>"+
+                            "<td style=\"color: #9F9F9F\" >"+val.date+"</td>"+
+                            "<td><a class=\"btn btn-default\" role=\"button\" onclick='textA(" + val.id + ")' >查看</a></td>"+
+                            "</tr>";
+
+                        $("#tab").append(str);
+
+
+                    });
+                }else{
+                    $("#tab").append("<tr><td colspan=8 align=\"center\">暂时没有数据哦，快去添加一条吧</td></tr>");
+                }
+            },
+            error:function(){
+                alert("服务器出错！");
+            }
+        });
+    }
+
+    //查看信息
+    function textA(id) {
+        $.ajax({
+            cache: true,
+            type: "get",
+            url: "/notice/findOneNotice",
+            data: {"id": id},
+            success: function (data) {
+                console.log(data);
+
+
+                var str = "";
+                str+="<tr>"+
+                    "<td>"+"</td>"+
+                    "<td>"+data[0].text+"</td>"+
+                    "</tr>"+
+                "<tr>"+
+                "<td >"+"</td>"+
+                "<td align=\"right\">"+data[0].issuer+"</td>"+
+                "</tr>";
+
+                $("#tab1").append(str);
+
+                $("#a1").hide();
+                $("#A").show();
+
+            },
+            error: function () {
+                notifyError("获取数据失败，请重新刷新！")
+            }
+        });
+
+    }
+
+    //返回
+    function f1() {
+
+        //table 的id,清空表格
+        var tb = document.getElementById('tab1');
+        var rowNum=tb.rows.length;
+        for (i=0;i<rowNum;i++)
+        {
+            tb.deleteRow(i);
+            rowNum=rowNum-1;
+            i=i-1;
+        }
+
+        $("#A").hide();
+        $("#a1").show();
+
+    }
+</script>
+</body>
+</html>
+

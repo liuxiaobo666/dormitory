@@ -1,6 +1,5 @@
 package com.sanxiau.dormitory.liu.dao;
 
-import com.sanxiau.dormitory.liu.entity.House;
 import com.sanxiau.dormitory.liu.entity.Student;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
