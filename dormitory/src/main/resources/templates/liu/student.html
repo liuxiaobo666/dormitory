@@ -3,10 +3,9 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!--<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">-->
     <title>学生信息</title>
-    <!-- Fav  Icon Link -->
     <!-- Bootstrap core CSS -->
     <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
     <!-- themify icons CSS -->
@@ -282,13 +281,15 @@
                     $("#select4").val(data[0].stuSta);
                     document.getElementById("select4").selected = 'selected';
                     $("#stuDes").val(data[0].stuDes);
+
+                    $("#id").val(id);
+                    $("#editModal").modal('show');
                 },
                 error: function () {
                     notifyError("获取数据失败，请重新刷新！")
                 }
             });
-            $("#id").val(id);
-            $("#editModal").modal('show');
+
 
         }
     }
