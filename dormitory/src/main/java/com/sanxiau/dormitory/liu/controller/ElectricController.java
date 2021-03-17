@@ -62,6 +62,59 @@ public class ElectricController {
     }
 
 
+
+    //学生电费消息
+    @RequestMapping("/goNews")
+    public String goNews(Model model) {
+        List<Electric> news1 = new ArrayList<>();
+        Electric news = new Electric();
+        try {
+            //根据寝室号查询电费消息
+            //假数据
+            String dorId = "102";
+            news1 = electricDao.findByDorId(dorId);
+            //如果没有需要缴费信息
+            if (news1 == null || news1.isEmpty()){
+                news.setId(1);
+                news.setPayMonth("还未更新");
+                news.setHouId("...");
+                news.setDorId("...");
+                news.setDegrees(0.00);
+               news.setPrice(BigDecimal.valueOf(0.00));
+               news.setAllPrice(BigDecimal.valueOf(0.00));
+               news.setConductor("...");
+               news.setPayState("...");
+                model.addAttribute("news", news);
+            }else {
+                news = news1.get(0);
+                model.addAttribute("news", news);
+            }
+
+        } catch (Exception e) {
+            //错误处理
+            return "liu/electricNew";
+        }
+        return "liu/electricNew";
+    }
+
+
+    //查看个人缴费信息
+    @RequestMapping("/myElectric")
+    public String myElectric(Model model) {
+        List<Electric> myElectric = new ArrayList<>();
+        try {
+            //根据学生账户查询缴费记录
+            //假数据
+            String payUser = "201724104239";
+            myElectric = electricDao.findByPayUser(payUser);
+            model.addAttribute("myElectric", myElectric);
+        } catch (Exception e) {
+            //错误处理
+            return "liu/error";
+        }
+        return "liu/myElectric";
+    }
+
     //增加电费信息
     @PostMapping("/electricAdd")
     public String electricAdd(Electric electric) {
@@ -104,7 +157,7 @@ public class ElectricController {
 
     }
 
-    //根据id缴费
+    //根据id缴费线下
     @ResponseBody
     @GetMapping("/electricUpdate")
     public Integer electricUpdate(int id, HttpServletRequest request) {
@@ -116,6 +169,25 @@ public class ElectricController {
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             String date = simpleDateFormat.format(new Date());
             electricDao.electricUpdateById(id,date,"已缴","线下");
+            return 1;
+        }else {
+            return 0;
+        }
+    }
+
+    //根据id缴费线上
+    @ResponseBody
+    @GetMapping("/electricUpdate1")
+    public Integer electricUpdate1(int id, HttpServletRequest request) {
+        System.out.println("....." + id);
+        List<Electric> electrics = electricDao.findById1(id);
+        String state = electrics.get(0).getPayState();
+        if (state.equals("未缴")){
+            //得到当前时间
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            String date = simpleDateFormat.format(new Date());
+            //缴费账户
+            electricDao.electricUpdateById(id,date,"已缴","线上");
             return 1;
         }else {
             return 0;

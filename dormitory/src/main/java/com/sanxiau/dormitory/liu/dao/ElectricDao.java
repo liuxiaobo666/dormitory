@@ -38,5 +38,19 @@ public interface ElectricDao extends JpaRepository<Electric, Object> {
     @Query(nativeQuery = true, value = "select * from electric where id=:id")
      List<Electric> findById1(@Param("id") Integer id);
 
+    //更据缴费用户查找
+    @Transactional
+    @Modifying
+    @Query(nativeQuery = true, value = "select * from electric where pay_user=:payUser")
+    List<Electric> findByPayUser(@Param("payUser") String payUser);
+
+
+    //更据缴费用户查找
+    @Transactional
+    @Modifying
+    @Query(nativeQuery = true, value = "select * from electric where dor_id=:dorId and pay_state='未缴'")
+    List<Electric> findByDorId(@Param("dorId") String dorId);
+
+
 
 }

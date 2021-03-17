@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>消息</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <script th:src="@{/js/jquery-2.1.4.min.js}"></script>
+    <script th:src="@{/js/bootstrap.min.js}"></script>
+</head>
+<body>
+<h3 style="color: #1c7430; text-align: center" id="d1">您的电费账单已生成，请尽快缴费</h3>
+<h3 style="color: #1c7430; text-align: center; display: none" id="dd1" >暂无最新消息</h3>
+
+<!--用户登录付款：wkqoux3589@sandbox.com 密码：111111-->
+<form action="/order/alipay" method="post">
+    <center>
+        <table class="table">
+
+            <!--String outTradeNo流水单号, String subject流水单名称, String totalAmount总价, String body描述-->
+            <tr hidden><td>流水单号:</td><td><input type="text" id="wnum1" value="12345678900011"  name="outTradeNo"></td></tr>
+            <tr hidden><td>流水单名称:</td><td><input type="text"  value="电费缴纳"  name="subject"></td></tr>
+            <tr hidden><td>描述:</td><td><input type="text"  value="寝室用电"  name="body"></td></tr>
+            <tr hidden>
+
+                <td style="text-align: right">id：</td>
+                <td><input type="text"  th:value="${news.id}" readonly="readonly" id="id1"></td>
+            </tr>
+            <tr>
+
+                <td style="text-align: right">月份：</td>
+                <td><input type="text"  th:value="${news.payMonth}" readonly="readonly" style="border:none"></td>
+            </tr>
+            <tr>
+                <td style="text-align: right">楼房号：</td>
+                <td><input type="text"  th:value="${news.houId}" readonly="readonly" style="border:none"></td>
+            </tr>
+            <tr>
+                <td style="text-align: right">寝室号：</td>
+                <td><input type="text"  th:value="${news.dorId}" readonly="readonly" style="border:none"></td>
+            </tr>
+            <tr>
+                <td style="text-align: right">使用度数：</td>
+                <td><input type="text" th:value="${news.degrees}" readonly="readonly" style="border:none"></td>
+            </tr>
+            <tr>
+                <td style="text-align: right">单价：</td>
+                <td><input type="text"  th:value="${news.price}" readonly="readonly" style="border:none"></td>
+            </tr>
+            <tr>
+                <td style="text-align: right">总费用：</td>
+                <td><input type="text"  name="totalAmount" th:value="${news.allPrice}" readonly="readonly" style="border:none"></td>
+            </tr>
+            <tr>
+                <td style="text-align: right">处理人：</td>
+                <td><input type="text"  th:value="${news.conductor}" readonly="readonly" style="border:none"></td>
+            </tr>
+            <tr>
+                <td style="text-align: right">缴费状态：</td>
+                <td><input type="text"  th:value="${news.payState}" readonly="readonly" style="border:none"></td>
+            </tr>
+        </table>
+        <button type="submit" class="btn btn-primary" onclick="updateState()" id="d2" >缴费</button>
+    </center>
+</form>
+
+
+</body>
+
+<script>
+
+    //没有新消息
+    $(document).ready(function () {
+        var id = $("#id1").val();
+        if (id==1){
+            $("#d1").hide();
+            $("#d2").hide();
+            $("#dd1").show();
+        }
+    })
+
+
+    //缴费状态改变
+    function updateState() {
+        var id = $("#id1").val();
+        if (id==1){
+            alert("暂无缴费信息！");
+        }else {
+            $.ajax({
+                cache: true,
+                type: "get",
+                url: "/electric/electricUpdate1",
+                data: {"id": id},
+                success: function (data) {
+                    console.log(data);
+                }
+            })
+        }
+
+    }
+</script>
+</html>

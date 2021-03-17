@@ -10,6 +10,7 @@ import com.sanxiau.dormitory.liu.entity.Riches;
 import com.sanxiau.dormitory.liu.entity.Student;
 import com.sanxiau.dormitory.liu.service.NoticeService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -51,6 +52,8 @@ public class NoticeController {
     //查询全部公告
     @ResponseBody
     @PostMapping("/AllNotice")
+   // @Cacheable(cacheNames = "pageNum", key = "#pageNum")
+    @Cacheable(cacheNames = "notice",key = "#pageNum+'-'+#pageSize")
     public PageInfo<Notice> AllNotice(int pageNum, int pageSize) {
         if(pageNum==-1){
             pageNum=1;

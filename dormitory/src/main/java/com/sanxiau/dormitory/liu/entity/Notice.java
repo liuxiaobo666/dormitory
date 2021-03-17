@@ -2,13 +2,14 @@ package com.sanxiau.dormitory.liu.entity;
 
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 /**
  * 公告实体类
  */
 @Entity
 @Table(name = "notice")
-public class Notice {
+public class Notice implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

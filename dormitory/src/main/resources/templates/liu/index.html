@@ -12,16 +12,42 @@
     <meta name="format-detection" content="telephone=no">
 
     <link rel="stylesheet" th:href="@{/css/layui.css}" media="all">
+    <link rel="stylesheet" th:href="@{/css/bootstrap.css}" media="all">
     <script th:src="@{/js/jquery-3.2.1.min.js}"></script>
+    <script th:src="@{/js/bootstrap.js}"></script>
 </head>
+
+<style>
+    .badge1:empty {
+        display: none;
+    }
+
+    .badge1 {
+        display: inline-block;
+        min-width: 8px;
+        padding: 4px 4px;
+        font-size: 10px;
+        font-weight: bold;
+        line-height: 1;
+        color: #fff;
+        text-align: center;
+        white-space: nowrap;
+        vertical-align: baseline;
+        background-color: red;
+        border-radius: 50%;
+    }
+</style>
+
 <body class="layui-layout-body">
+
+
 <div class="layui-layout layui-layout-admin">
     <div class="layui-header">
         <div class="layui-logo" style="color: #01AAED">重庆三峡学院宿舍管理</div>
         <!-- 头部区域（可配合layui已有的水平导航） -->
         <ul class="layui-nav layui-layout-left">
             <li class="layui-nav-item"><a target="myFrameName" href="/test/test">控制台</a></li>
-            <li class="layui-nav-item"><a target="myFrameName" href="/test/test">消息</a></li>
+            <li class="layui-nav-item"><a target="myFrameName" href="/electric/goNews" onclick="chang()">消息<span class="badge1">1</span></a></li>
             <li class="layui-nav-item"><a target="myFrameName" href="/test/test">用户</a></li>
             <li class="layui-nav-item">
                 <a href="javascript:;">其它系统</a>
@@ -70,6 +96,7 @@
                 <li class="layui-nav-item"><a target="myFrameName" href="/electric/electrics"
                                               onclick="chang()">电费基本信息</a></li>
                 <li class="layui-nav-item"><a target="myFrameName" href="/notice/goAddNotice" onclick="chang()">发布公告</a></li>
+                <li class="layui-nav-item"><a target="myFrameName" href="/electric/myElectric" onclick="chang()">缴费记录</a></li>
             </ul>
         </div>
     </div>
@@ -108,10 +135,10 @@
                     </div>
 
                 </div>
-                <div class="layui-col-xs6 layui-col-md5">
+                <div class="layui-col-xs6 layui-col-md5" >
                     <!--<div class="grid-demo">移动：6/12、桌面：4/12</div>-->
                     <div class="layui-collapse" lay-filter="test"
-                         style="width: 490px; height: 100%; float: right; border-color: #40AFFE">
+                         style="width: 490px; height: 100%; float: right; border-color: #40AFFE; background-color: #F2F2F2">
                         <div class="layui-colla-item" style="background-color: #F2F2F2;height: 42px
 " >
                             <h2 style="text-align: center;color: #40AFFE;top: 50%">公告公示
@@ -120,7 +147,7 @@
                         <div class="layui-colla-item" th:each="notices:${notices}">
                             <h2 class="layui-colla-title"><span th:text="${notices.title}"></span><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #9F9F9F; " th:text="${notices.date}" ></span><i
                                     class="layui-icon layui-colla-icon"></i></h2>
-                            <div class="layui-colla-content">
+                            <div class="layui-colla-content" style="background-color: white">
                                 <p th:text="${notices.text}">
                                 </p><br>
                                 <p th:text="${notices.issuer}" style="text-align: right"></p>
