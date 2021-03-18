@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>公告列表</title>
+    <title>卫生列表</title>
     <link rel="stylesheet" th:href="@{/css/bootstrap-theme.min.css}">
     <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
     <script  th:src="@{/js/jquery-1.11.3.min.js}"></script>
@@ -63,7 +63,7 @@
         $.ajax({
             //cache: true,
             //type: "get",
-            url:"/notice/AllNotice",
+            url:"/dorsanit/DorsanitByHouId",
             async:false,//同步请求（默认）
             type:"POST",
             dataType:"json",
@@ -82,8 +82,8 @@
                         var str = "";
                         str+="<tr>"+
                             "<td>"+"</td>"+
-                            "<td>"+">"+val.title+"</td>"+
-                            "<td style=\"color: #9F9F9F\" >"+val.date+"</td>"+
+                            "<td>"+">"+val.watch+"</td>"+
+                            "<td style=\"color: #9F9F9F\" >"+val.sanit_date+"</td>"+
                             "<td><a class=\"btn btn-default\" role=\"button\" onclick='textA(" + val.id + ")' >查看</a></td>"+
                             "</tr>";
 
@@ -106,7 +106,7 @@
         $.ajax({
             cache: true,
             type: "get",
-            url: "/notice/findOneNotice",
+            url: "/dorsanit/findOneDorsanit",
             data: {"id": id},
             success: function (data) {
                 console.log(data);
@@ -114,12 +114,12 @@
 
                 var str = "";
                 str+="<tr>"+
-                    "<td>"+"</td>"+
-                    "<td>"+data[0].text+"</td>"+
+                    "<td>"+"表扬"+"</td>"+
+                    "<td>"+data[0].praise+"</td>"+
                     "</tr>"+
                 "<tr>"+
-                "<td >"+"</td>"+
-                "<td align=\"right\">"+data[0].issuer+"</td>"+
+                "<td >"+"批评"+"</td>"+
+                "<td >"+data[0].criticism+"</td>"+
                 "</tr>";
 
                 $("#tab1").append(str);

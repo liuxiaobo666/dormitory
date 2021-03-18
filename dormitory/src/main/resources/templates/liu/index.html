@@ -46,15 +46,14 @@
         <div class="layui-logo" style="color: #01AAED">重庆三峡学院宿舍管理</div>
         <!-- 头部区域（可配合layui已有的水平导航） -->
         <ul class="layui-nav layui-layout-left">
-            <li class="layui-nav-item"><a target="myFrameName" href="/test/test">控制台</a></li>
-            <li class="layui-nav-item"><a target="myFrameName" href="/electric/goNews" onclick="chang()">消息<span class="badge1">1</span></a></li>
+            <li class="layui-nav-item"><a target="myFrameName" href="/dorsanit/goDorsanitToStudent" onclick="chang()">寝室评比</a></li>
+            <li class="layui-nav-item"><a target="myFrameName" href="/electric/goNews" onclick="chang()">消息<span class="badge1" th:value="${news.id}" id="news1">1</span></a></li>
             <li class="layui-nav-item"><a target="myFrameName" href="/test/test">用户</a></li>
             <li class="layui-nav-item">
-                <a href="javascript:;">其它系统</a>
+                <a href="javascript:;">卫生管理</a>
                 <dl class="layui-nav-child">
-                    <dd><a target="myFrameName" href="/test/test">邮件管理</a></dd>
-                    <dd><a target="myFrameName" href="/test/test">消息管理</a></dd>
-                    <dd><a target="myFrameName" href="/test/test">授权管理</a></dd>
+                    <dd><a target="myFrameName" href="/dorsanit/goDorsanitByHouId" onclick="chang()">查看往日</a></dd>
+                    <dd><a target="myFrameName" href="/dorsanit/goAddDorsanit" onclick="chang()">卫生发布</a></dd>
                 </dl>
             </li>
         </ul>
@@ -253,6 +252,15 @@
     });
 </script>
 <script>
+
+    //没有新消息
+    $(document).ready(function () {
+        var id = $("#news1").val();
+        if (id==1){
+            $("#news1").hide();
+        }
+    })
+
     //JavaScript代码区域
     layui.use('element', function () {
         var element = layui.element;

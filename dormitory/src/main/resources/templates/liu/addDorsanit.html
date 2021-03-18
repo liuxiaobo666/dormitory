@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>添加卫生</title>
+    <!-- Fav  Icon Link -->
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <!-- themify icons CSS -->
+    <link rel="stylesheet" th:href="@{/css/themify-icons.css}">
+    <!-- Animations CSS -->
+    <link rel="stylesheet" th:href="@{/css/animate.css}">
+    <!-- Main CSS -->
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <link rel="stylesheet" th:href="@{/css/green.css}" id="style_theme">
+    <link rel="stylesheet" th:href="@{/css/responsive.css}">
+    <!-- morris charts -->
+    <link rel="stylesheet" th:href="@{/charts/css/morris.css}">
+    <!-- jvectormap -->
+    <link rel="stylesheet" th:href="@{/css/jquery-jvectormap.css}">
+    <link rel="stylesheet" th:href="@{/datatable/dataTables.bootstrap4.min.css}">
+    <link rel="stylesheet" th:href="@{/css/layui.css}" media="all">
+    <script th:src="@{/js/modernizr.min.js}"></script>
+</head>
+<body>
+<!-- Pre Loader -->
+<div class="loading">
+    <div class="spinner">
+        <div class="double-bounce1"></div>
+        <div class="double-bounce2"></div>
+    </div>
+</div>
+
+<!--增加框-->
+<form class="layui-form" action="/dorsanit/addDorsanit" method="post">
+
+    <div class="layui-form-item layui-form-text" style="margin-top: 20px;margin-right: 20px">
+        <label class="layui-form-label" style="width: 95px">表扬</label>
+        <div class="layui-input-block">
+            <textarea placeholder="请输入内容" class="layui-textarea" name="praise"></textarea>
+        </div>
+    </div>
+
+    <div class="layui-form-item layui-form-text" style="margin-right: 20px">
+        <label class="layui-form-label" style="width: 95px">批评</label>
+        <div class="layui-input-block">
+            <textarea placeholder="请输入内容" class="layui-textarea" name="criticism"></textarea>
+        </div>
+    </div>
+
+    <div class="layui-form-item" style="margin-top: 20px;margin-right: 20px" >
+        <label class="layui-form-label" style="width: 95px">备注</label>
+        <div class="layui-input-block">
+            <input type="text" name="sanitDes" lay-verify="title" autocomplete="off" placeholder="请输入备注" class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button type="submit" class="layui-btn" lay-submit="" lay-filter="demo1">立即发布</button>
+            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+        </div>
+    </div>
+</form>
+
+<!-- /Back to Top -->
+<!-- Jquery Library-->
+<script th:src="@{/js/jquery-3.2.1.min.js}"></script>
+<!-- Popper Library-->
+<script th:src="@{/js/popper.min.js}"></script>
+<!-- Bootstrap Library-->
+<script th:src="@{/js/bootstrap.min.js}"></script>
+<!-- Datatable  -->
+<script th:src="@{/datatable/jquery.dataTables.min.js}"></script>
+<script th:src="@{/datatable/dataTables.bootstrap4.min.js}"></script>
+<!-- Custom Script-->
+<script th:src="@{/js/custom.js}"></script>
+<script th:src="@{/js/custom-datatables.js}"></script>
+<script th:src="@{/js/layui.js}" charset="utf-8"></script>
+
+<script>
+    layui.use(['form', 'layedit', 'laydate'], function() {
+        var form = layui.form
+            , layer = layui.layer
+            , layedit = layui.layedit
+            , laydate = layui.laydate;
+
+        //日期
+        laydate.render({
+            elem: '#date'
+        });
+        laydate.render({
+            elem: '#date1'
+        });
+
+        });
+
+
+
+
+
+</script>
+
+<script th:inline="javascript">
+
+</script>
+
+
+</body>
+</html>

@@ -52,8 +52,6 @@ public class NoticeController {
     //查询全部公告
     @ResponseBody
     @PostMapping("/AllNotice")
-   // @Cacheable(cacheNames = "pageNum", key = "#pageNum")
-    @Cacheable(cacheNames = "notice",key = "#pageNum+'-'+#pageSize")
     public PageInfo<Notice> AllNotice(int pageNum, int pageSize) {
         if(pageNum==-1){
             pageNum=1;
@@ -73,7 +71,7 @@ public class NoticeController {
         return notices;
     }
 
-    //增加学生
+    //增加公告
     @PostMapping("/addNotice")
     public String addNotice(Notice notice) {
         try {
