@@ -35,22 +35,22 @@
 
 <!--增加框-->
 <form class="layui-form" action="/notice/addNotice" method="post">
-    <div class="layui-form-item" style="margin-top: 20px;margin-right: 20px" >
-        <label class="layui-form-label" style="width: 95px">公告标题</label>
+    <div class="layui-form-item" style="margin-top: 2%;margin-right: 2%" >
+        <label class="layui-form-label" style="width: 7%">公告标题</label>
         <div class="layui-input-block">
             <input type="text" name="title" lay-verify="title" autocomplete="off" placeholder="请输入标题" class="layui-input">
         </div>
     </div>
-    <div class="layui-form-item layui-form-text" style="margin-right: 20px">
-        <label class="layui-form-label" style="width: 95px">公告内容</label>
+    <div class="layui-form-item layui-form-text" style="margin-right: 2%">
+        <label class="layui-form-label" style="width: 7%">公告内容</label>
         <div class="layui-input-block">
             <textarea placeholder="请输入内容" class="layui-textarea" name="text"></textarea>
         </div>
     </div>
 
-    <div class="layui-form-item" style="margin-right: 80%">
-        <label class="layui-form-label" style="width: 95px">发布部门</label>
-        <div class="layui-input-block">
+    <div class="layui-form-item" >
+        <label class="layui-form-label" style="width: 7%">发布部门</label>
+        <div class="layui-input-block" style="margin-right: 80%">
             <select lay-filter="aihao" name="issuer">
                 <option value="" selected=""></option>
                 <option value="后勤处" >后勤处</option>
