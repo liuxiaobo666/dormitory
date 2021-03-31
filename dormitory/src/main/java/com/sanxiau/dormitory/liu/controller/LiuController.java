@@ -72,7 +72,7 @@ public class LiuController {
             }
 
 
-        return "liu/index";
+        return "comm/index";
     }
 
 }
